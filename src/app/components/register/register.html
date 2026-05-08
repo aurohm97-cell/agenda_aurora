@@ -1,0 +1,24 @@
+<div class="register-container">
+  <h2>Crear Cuenta - Agenda Aurora</h2>
+  
+  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+    <div>
+      <label>Nombre:</label>
+      <input type="text" formControlName="nombre" placeholder="Tu nombre">
+    </div>
+
+    <div>
+      <label>Email:</label>
+      <input type="email" formControlName="email" placeholder="ejemplo@correo.com">
+    </div>
+
+    <div>
+      <label>Contraseña:</label>
+      <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
+    </div>
+
+    <button type="submit" [disabled]="registerForm.invalid">Registrarse</button>
+  </form>
+
+  <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
+</div>

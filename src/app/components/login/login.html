@@ -1,0 +1,22 @@
+<div class="login-box">
+  <h2>Agenda Aurora</h2>
+  
+  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+    <div>
+      <label>Email:</label><br>
+      <input type="email" formControlName="email" placeholder="ejemplo@correo.com">
+    </div>
+
+    <br>
+
+    <div>
+      <label>Contraseña:</label><br>
+      <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
+    </div>
+
+    <br>
+
+    <button type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</button>
+    <p>¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a></p>
+  </form>
+</div>
