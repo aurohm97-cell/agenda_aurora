@@ -1,22 +1,25 @@
-<div class="login-box">
-  <h2>Agenda Aurora</h2>
-  
-  <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
-    <div>
-      <label>Email:</label><br>
-      <input type="email" formControlName="email" placeholder="ejemplo@correo.com">
-    </div>
+<div class="login-container">
+  <div class="login-card">
+    <h2>Agenda Aurora</h2>
+    
+    <form [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" formControlName="email" placeholder="ejemplo@correo.com">
+      </div>
 
-    <br>
+      <div class="form-group">
+        <label>Contraseña:</label>
+        <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
+      </div>
 
-    <div>
-      <label>Contraseña:</label><br>
-      <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
-    </div>
+      <button type="submit" class="btn-primary" [disabled]="loginForm.invalid">
+        Iniciar Sesión
+      </button>
 
-    <br>
+    </form>
 
-    <button type="submit" [disabled]="loginForm.invalid">Iniciar Sesión</button>
     <p>¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a></p>
-  </form>
+  </div>
 </div>

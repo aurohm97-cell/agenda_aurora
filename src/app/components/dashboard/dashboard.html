@@ -1,0 +1,75 @@
+<div class="dashboard-container">
+  <header>
+    <h1>Mi Agenda Aurora</h1>
+    <button (click)="logout()">Cerrar Sesión</button>
+  </header>
+
+  <div class="board">
+    <div class="column">
+      <h3>Por hacer</h3>
+      
+      <div class="task-list">
+        @for (tarea of misTareas; track tarea.id) {
+          @if (tarea.estado === 'pendiente') {
+            <div class="task-card">
+              <p>{{ tarea.titulo }}</p>
+              <button (click)="eliminar(tarea.id)">🗑️</button>
+            </div>
+          }
+        }
+      </div>
+
+      <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button>
+    </div>
+
+    <div class="board">
+  <div class="column">
+    <h3>Por hacer</h3>
+    <div class="task-list">
+      @for (tarea of misTareas; track tarea.id) {
+        @if (tarea.estado === 'pendiente') {
+          <div class="task-card">
+            <p>{{ tarea.titulo }}</p>
+            <div class="actions">
+              <button (click)="moverTarea(tarea.id, 'proceso')">➡️</button>
+              <button (click)="eliminar(tarea.id)">🗑️</button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+    <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button>
+  </div>
+
+  <div class="column">
+    <h3>En proceso</h3>
+    <div class="task-list">
+      @for (tarea of misTareas; track tarea.id) {
+        @if (tarea.estado === 'proceso') {
+          <div class="task-card">
+            <p>{{ tarea.titulo }}</p>
+            <div class="actions">
+              <button (click)="moverTarea(tarea.id, 'pendiente')">⬅️</button>
+              <button (click)="moverTarea(tarea.id, 'hecho')">➡️</button>
+            </div>
+          </div>
+        }
+      }
+    </div>
+  </div>
+
+  <div class="column">
+    <h3>Hecho</h3>
+    <div class="task-list">
+      @for (tarea of misTareas; track tarea.id) {
+        @if (tarea.estado === 'hecho') {
+          <div class="task-card">
+            <p>{{ tarea.titulo }}</p>
+            <button (click)="moverTarea(tarea.id, 'proceso')">⬅️</button>
+            <button (click)="eliminar(tarea.id)">🗑️</button>
+          </div>
+        }
+      }
+    </div>
+  </div>
+</div>

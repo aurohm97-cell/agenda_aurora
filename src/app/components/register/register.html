@@ -1,24 +1,31 @@
-<div class="register-container">
-  <h2>Crear Cuenta - Agenda Aurora</h2>
-  
-  <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
-    <div>
-      <label>Nombre:</label>
-      <input type="text" formControlName="nombre" placeholder="Tu nombre">
-    </div>
+<div class="login-container">
+  <div class="login-card">
+    <h2>Crear Cuenta</h2>
+    <p style="margin-bottom: 20px;">Únete a la Agenda Aurora</p>
 
-    <div>
-      <label>Email:</label>
-      <input type="email" formControlName="email" placeholder="ejemplo@correo.com">
-    </div>
+    <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
+      
+      <div class="form-group">
+        <label>Nombre completo:</label>
+        <input type="text" formControlName="nombre" placeholder="Tu nombre...">
+      </div>
 
-    <div>
-      <label>Contraseña:</label>
-      <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
-    </div>
+      <div class="form-group">
+        <label>Email:</label>
+        <input type="email" formControlName="email" placeholder="ejemplo@correo.com">
+      </div>
 
-    <button type="submit" [disabled]="registerForm.invalid">Registrarse</button>
-  </form>
+      <div class="form-group">
+        <label>Contraseña:</label>
+        <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
+      </div>
 
-  <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
+      <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">
+        Registrarse
+      </button>
+
+    </form>
+
+    <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
+  </div>
 </div>
