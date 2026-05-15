@@ -37,6 +37,16 @@ export class TaskService {
     }
     return tareas;
   }
+// Update: Cambiar el texto de la tarea
+  editarTarea(id: number, nuevoTitulo: string) {
+    let tareas = this.getTareas();
+    const index = tareas.findIndex(t => t.id === id);
+    if (index !== -1) {
+      tareas[index].titulo = nuevoTitulo;
+      localStorage.setItem(this.DB_NAME, JSON.stringify(tareas));
+    }
+    return tareas;
+  }
 
   // Borrar tarea (Parte del CRUD)
   borrarTarea(id: number) {

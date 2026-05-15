@@ -4,24 +4,6 @@
     <button (click)="logout()">Cerrar Sesión</button>
   </header>
 
-  <div class="board">
-    <div class="column">
-      <h3>Por hacer</h3>
-      
-      <div class="task-list">
-        @for (tarea of misTareas; track tarea.id) {
-          @if (tarea.estado === 'pendiente') {
-            <div class="task-card">
-              <p>{{ tarea.titulo }}</p>
-              <button (click)="eliminar(tarea.id)">🗑️</button>
-            </div>
-          }
-        }
-      </div>
-
-      <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button>
-    </div>
-
     <div class="board">
   <div class="column">
     <h3>Por hacer</h3>
@@ -31,6 +13,7 @@
           <div class="task-card">
             <p>{{ tarea.titulo }}</p>
             <div class="actions">
+              <button (click)="editar(tarea.id, tarea.titulo)">✏️</button>
               <button (click)="moverTarea(tarea.id, 'proceso')">➡️</button>
               <button (click)="eliminar(tarea.id)">🗑️</button>
             </div>
@@ -49,6 +32,7 @@
           <div class="task-card">
             <p>{{ tarea.titulo }}</p>
             <div class="actions">
+              <button (click)="editar(tarea.id, tarea.titulo)">✏️</button>
               <button (click)="moverTarea(tarea.id, 'pendiente')">⬅️</button>
               <button (click)="moverTarea(tarea.id, 'hecho')">➡️</button>
             </div>
@@ -65,8 +49,11 @@
         @if (tarea.estado === 'hecho') {
           <div class="task-card">
             <p>{{ tarea.titulo }}</p>
+            <div class="actions">
+            <button (click)="editar(tarea.id, tarea.titulo)">✏️</button>
             <button (click)="moverTarea(tarea.id, 'proceso')">⬅️</button>
             <button (click)="eliminar(tarea.id)">🗑️</button>
+            </div>
           </div>
         }
       }

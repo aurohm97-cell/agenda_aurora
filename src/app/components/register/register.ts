@@ -25,11 +25,16 @@ export class RegisterComponent {
 
   onRegister() {
     if (this.registerForm.valid) {
-      const exito = this.authService.registrar(this.registerForm.value);
+      // 1. Extraemos los valores individuales del formulario
+      const { nombre, email, password } = this.registerForm.value;
+
+      // 2. Se los pasamos al servicio.
+      // Usamos el "!" para decirle a TS que estamos seguros de que no son nulos.
+      const exito = this.authService.registrar(nombre!, email!, password!);
 
       if (exito) {
         alert('¡Usuario creado con éxito! Ahora puedes loguearte.');
-        this.router.navigate(['/login']); // Te manda al login automáticamente
+        this.router.navigate(['/login']);
       } else {
         alert('Este email ya está registrado.');
       }

@@ -30,6 +30,15 @@ export class DashboardComponent implements OnInit {
   moverTarea(id: number, nuevoEstado: string) {
     this.misTareas = this.taskService.actualizarEstado(id, nuevoEstado);
   }
+
+  editar(id: number, tituloActual: string) {
+    // Pedimos el nuevo nombre, poniendo el actual por defecto
+    const nuevoTitulo = prompt('Edita tu tarea:', tituloActual);
+    
+    if (nuevoTitulo && nuevoTitulo.trim() !== '') {
+      this.misTareas = this.taskService.editarTarea(id, nuevoTitulo);
+    }
+  }
   
   eliminar(id: number) {
     if (confirm('¿Seguro que quieres borrarla?')) {
