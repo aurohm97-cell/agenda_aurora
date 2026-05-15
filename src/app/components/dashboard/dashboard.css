@@ -86,6 +86,45 @@ header button:hover {
   word-wrap: break-word;
 }
 
+/* Título de la tarea */
+.task-content strong {
+  display: block;
+  font-size: 1.1rem;
+  color: #2c3e50;
+  margin-bottom: 5px;
+}
+
+/* Descripción de la tarea */
+.description {
+  font-size: 0.9rem;
+  color: #7f8c8d;
+  margin-bottom: 10px;
+  line-height: 1.4;
+}
+
+/* Estilos para el modo edición */
+.edit-title {
+  width: 100%;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 8px;
+  border: 1px solid #3498db;
+  border-radius: 4px;
+  margin-bottom: 8px;
+}
+
+.edit-desc {
+  width: 100%;
+  min-height: 80px; /* Aquí le damos el tamaño extra que buscabas */
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-family: inherit;
+  font-size: 0.9rem;
+  resize: vertical; /* Permite al usuario estirarlo si quiere */
+  margin-bottom: 10px;
+}
+
 /* Contenedor de botones dentro de la tarjeta */
 .actions {
   display: flex;

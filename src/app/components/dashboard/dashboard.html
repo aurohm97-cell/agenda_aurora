@@ -4,59 +4,90 @@
     <button (click)="logout()">Cerrar Sesión</button>
   </header>
 
-    <div class="board">
-  <div class="column">
-    <h3>Por hacer</h3>
-    <div class="task-list">
-      @for (tarea of misTareas; track tarea.id) {
-        @if (tarea.estado === 'pendiente') {
-          <div class="task-card">
-            <p>{{ tarea.titulo }}</p>
-            <div class="actions">
-              <button (click)="editar(tarea.id, tarea.titulo)">✏️</button>
-              <button (click)="moverTarea(tarea.id, 'proceso')">➡️</button>
-              <button (click)="eliminar(tarea.id)">🗑️</button>
+  <div class="board">
+    <div class="column">
+      <h3>Por hacer</h3>
+      <div class="task-list">
+        @for (tarea of misTareas; track tarea.id) {
+          @if (tareaEnEdicion !== tarea.id) {
+            <div class="task-card" [class.urgente]="tarea.prioridad === 'urgente'" [class.normal]="tarea.prioridad === 'normal'">
+              <div class="task-content">
+                <strong>{{ tarea.titulo }}</strong>
+                @if (tarea.descripcion) {
+                  <p class="description">{{ tarea.descripcion }}</p>
+                }
+              </div>
+              <div class="actions">
+                <button (click)="editar(tarea)">✏️</button>
+                <button (click)="moverTarea(tarea.id, 'proceso')">➡️</button>
+                <button (click)="eliminar(tarea.id)">🗑️</button>
+              </div>
             </div>
-          </div>
-        }
-      }
-    </div>
-    <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button>
-  </div>
+          } @else {
+            <div class="task-card">
+              <div class="edit-mode">
+                <input class="edit-title"
+                  [(ngModel)]="tituloTemporal" placeholder="Título de la tarea"
+                  (keyup.enter)="guardarEdicion(tarea.id)"
+                  autofocus
+                />
 
-  <div class="column">
-    <h3>En proceso</h3>
-    <div class="task-list">
-      @for (tarea of misTareas; track tarea.id) {
-        @if (tarea.estado === 'proceso') {
-          <div class="task-card">
-            <p>{{ tarea.titulo }}</p>
-            <div class="actions">
-              <button (click)="editar(tarea.id, tarea.titulo)">✏️</button>
-              <button (click)="moverTarea(tarea.id, 'pendiente')">⬅️</button>
-              <button (click)="moverTarea(tarea.id, 'hecho')">➡️</button>
-            </div>
-          </div>
-        }
-      }
-    </div>
-  </div>
+                <textarea class="edit-desc" [(ngModel)]="descripcionTemporal" placeholder="Añade una descripción..."></textarea>
 
-  <div class="column">
-    <h3>Hecho</h3>
-    <div class="task-list">
-      @for (tarea of misTareas; track tarea.id) {
-        @if (tarea.estado === 'hecho') {
-          <div class="task-card">
-            <p>{{ tarea.titulo }}</p>
-            <div class="actions">
-            <button (click)="editar(tarea.id, tarea.titulo)">✏️</button>
-            <button (click)="moverTarea(tarea.id, 'proceso')">⬅️</button>
-            <button (click)="eliminar(tarea.id)">🗑️</button>
+                <label class="priority-label">
+                  Prioridad:
+                  <select [(ngModel)]="prioridadTemporal">
+                    <option value="normal">Normal</option>
+                    <option value="urgente">Urgente</option>
+                  </select>
+                </label>
+
+                <div class="actions">
+                  <button (click)="guardarEdicion(tarea.id)">✅</button>
+                  <button (click)="cancelarEdicion()">❌</button>
+                </div>
+              </div>
             </div>
-          </div>
+          }
         }
-      }
+      </div>
+      <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button>
+    </div>
+
+    <div class="column">
+      <h3>En proceso</h3>
+      <div class="task-list">
+        @for (tarea of misTareas; track tarea.id) {
+          @if (tarea.estado === 'proceso') {
+            <div class="task-card">
+              <p>{{ tarea.titulo }}</p>
+              <div class="actions">
+                <button (click)="editar(tarea)">✏️</button>
+                <button (click)="moverTarea(tarea.id, 'pendiente')">⬅️</button>
+                <button (click)="moverTarea(tarea.id, 'hecho')">➡️</button>
+              </div>
+            </div>
+          }
+        }
+      </div>
+    </div>
+
+    <div class="column">
+      <h3>Hecho</h3>
+      <div class="task-list">
+        @for (tarea of misTareas; track tarea.id) {
+          @if (tarea.estado === 'hecho') {
+            <div class="task-card">
+              <p>{{ tarea.titulo }}</p>
+              <div class="actions">
+                <button (click)="editar(tarea)">✏️</button>
+                <button (click)="moverTarea(tarea.id, 'proceso')">⬅️</button>
+                <button (click)="eliminar(tarea.id)">🗑️</button>
+              </div>
+            </div>
+          }
+        }
+      </div>
     </div>
   </div>
 </div>
