@@ -9,6 +9,7 @@
       <h3>Por hacer</h3>
       <div class="task-list">
         @for (tarea of misTareas; track tarea.id) {
+          @if (tarea.estado === 'pendiente') { <!-- no es lo mismo por hacer que pendiente, pendiente es el estado de la tarea, por hacer es el nombre de la columna -->
           @if (tareaEnEdicion !== tarea.id) {
             <div class="task-card" [class.urgente]="tarea.prioridad === 'urgente'" [class.normal]="tarea.prioridad === 'normal'">
               <div class="task-content">
@@ -50,25 +51,92 @@
             </div>
           }
         }
-      </div>
-      <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button>
+        }
     </div>
+
+    @if (mostrandoFormularioNueva) {
+      <div class="task-card" style="margin-top: 10px;">
+        <div class="edit-mode">
+          <input 
+            class="edit-title" 
+            [(ngModel)]="nuevoTitulo" 
+            placeholder="Título de la nueva tarea" 
+            (keyup.enter)="guardarNueva()"
+            autofocus 
+          />
+          
+          <textarea 
+            class="edit-desc" 
+            [(ngModel)]="nuevaDescripcion" 
+            placeholder="Añade una descripción...">
+          </textarea>
+
+          <label class="priority-label">
+            Prioridad:
+            <select [(ngModel)]="nuevaPrioridad">
+              <option value="normal">Normal</option>
+              <option value="urgente">Urgente</option>
+            </select>
+          </label>
+
+          <div class="actions">
+            <button (click)="guardarNueva()">✅ Crear</button>
+            <button (click)="cancelarNueva()">❌</button>
+          </div>
+        </div>
+      </div>
+    } @else {
+      <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button> 
+    }
+  </div>
 
     <div class="column">
       <h3>En proceso</h3>
       <div class="task-list">
         @for (tarea of misTareas; track tarea.id) {
           @if (tarea.estado === 'proceso') {
-            <div class="task-card">
-              <p>{{ tarea.titulo }}</p>
+            @if (tareaEnEdicion !== tarea.id) { 
+            <div class="task-card" [class.urgente]="tarea.prioridad === 'urgente'" [class.normal]="tarea.prioridad === 'normal'">
+              <div class="task-content">
+                <strong>{{ tarea.titulo }}</strong>
+                @if (tarea.descripcion) {
+                  <p class="description">{{ tarea.descripcion }}</p>
+                }
+              </div>
               <div class="actions">
                 <button (click)="editar(tarea)">✏️</button>
                 <button (click)="moverTarea(tarea.id, 'pendiente')">⬅️</button>
                 <button (click)="moverTarea(tarea.id, 'hecho')">➡️</button>
               </div>
             </div>
+          } @else {
+            <div class="task-card">
+              <div class="edit-mode">
+                <input class="edit-title"
+                  [(ngModel)]="tituloTemporal" placeholder="Título de la tarea"
+                  (keyup.enter)="guardarEdicion(tarea.id)"
+                  autofocus
+                />
+
+                <textarea class="edit-desc" [(ngModel)]="descripcionTemporal" placeholder="Añade una descripción..."></textarea>
+
+                <label class="priority-label">
+                  Prioridad:
+                  <select [(ngModel)]="prioridadTemporal">
+                    <option value="normal">Normal</option>
+                    <option value="urgente">Urgente</option>
+                  </select>
+                </label>
+
+                <div class="actions">
+                  <button (click)="guardarEdicion(tarea.id)">✅</button>
+                  <button (click)="cancelarEdicion()">❌</button>
+                </div>
+              </div>
+            </div>
           }
         }
+      }
       </div>
     </div>
 
@@ -77,17 +145,72 @@
       <div class="task-list">
         @for (tarea of misTareas; track tarea.id) {
           @if (tarea.estado === 'hecho') {
-            <div class="task-card">
-              <p>{{ tarea.titulo }}</p>
+          @if (tareaEnEdicion !== tarea.id) { 
+            <div class="task-card" [class.urgente]="tarea.prioridad === 'urgente'" [class.normal]="tarea.prioridad === 'normal'">
+              <div class="task-content">
+                <strong>{{ tarea.titulo }}</strong>
+                @if (tarea.descripcion) {
+                  <p class="description">{{ tarea.descripcion }}</p>
+                }
+              </div>
               <div class="actions">
                 <button (click)="editar(tarea)">✏️</button>
                 <button (click)="moverTarea(tarea.id, 'proceso')">⬅️</button>
                 <button (click)="eliminar(tarea.id)">🗑️</button>
               </div>
             </div>
+
+          } @else { 
+            <div class="task-card">
+              <div class="edit-mode">
+                <input class="edit-title"
+                  [(ngModel)]="tituloTemporal" placeholder="Título de la tarea"
+                  (keyup.enter)="guardarEdicion(tarea.id)"
+                  autofocus
+                />
+
+                <textarea class="edit-desc" [(ngModel)]="descripcionTemporal" placeholder="Añade una descripción..."></textarea>
+
+                <label class="priority-label">
+                  Prioridad:
+                  <select [(ngModel)]="prioridadTemporal">
+                    <option value="normal">Normal</option>
+                    <option value="urgente">Urgente</option>
+                  </select>
+                </label>
+
+                <div class="actions">
+                  <button (click)="guardarEdicion(tarea.id)">✅</button>
+                  <button (click)="cancelarEdicion()">❌</button>
+                </div>
+              </div>
+            </div>
           }
         }
+      }
+    </div> <!--modales-->
+</div> @if (tareaABorrar !== null) { <!-- Si hay una tarea marcada para borrar, mostramos el modal de confirmación. Tiene que ir fuera de todo el bloque de co -->
+  <div class="modal-overlay">
+    <div class="modal-card">
+      <h3>¿Eliminar tarea?</h3>
+      <p>Esta acción no se puede deshacer.</p>
+      
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="cancelarBorrado()">Cancelar</button>
+        <button class="btn-danger" (click)="confirmarBorrado()">Sí, eliminar</button>
       </div>
     </div>
   </div>
-</div>
+} @if (mostrandoModalLogout) { <!-- Modal de confirmación de cierre de sesión -->
+  <div class="modal-overlay">
+    <div class="modal-card">
+      <h3>¿Cerrar sesión?</h3>
+      <p>¿Estás seguro de que quieres cerrar sesión?</p>
+      
+      <div class="modal-actions">
+        <button class="btn-cancel" (click)="cancelarLogout()">Cancelar</button>
+        <button class="btn-danger" (click)="confirmarLogout()">Sí, cerrar sesión</button>
+      </div>
+    </div>
+  </div>
+}

@@ -17,6 +17,12 @@ export class DashboardComponent implements OnInit {
   tituloTemporal: string = '';
   descripcionTemporal: string = '';
   prioridadTemporal: string = 'normal';
+  tareaABorrar: number | null = null;
+  mostrandoFormularioNueva: boolean = false;
+  nuevoTitulo: string = '';
+  nuevaDescripcion: string = '';
+  nuevaPrioridad: string = 'normal';
+  mostrandoModalLogout: boolean = false;
 
   constructor(
     private taskService: TaskService,
@@ -28,11 +34,32 @@ export class DashboardComponent implements OnInit {
     this.misTareas = this.taskService.getTareas();
   }
 
+  // Al pulsar "+ Añadir tarea", en vez de un prompt, abrimos el formulario inline
   agregarNueva() {
-    const titulo = prompt('¿Qué tienes que hacer?');
-    if (titulo) {
-      this.misTareas = this.taskService.agregarTarea(titulo);
+    this.mostrandoFormularioNueva = true;
+    this.nuevoTitulo = '';
+    this.nuevaDescripcion = '';
+    this.nuevaPrioridad = 'normal';
+  }
+
+  // Al pulsar el botón de ✅ Crear
+  guardarNueva() {
+    if (this.nuevoTitulo.trim() !== '') {
+      this.misTareas = this.taskService.agregarTarea(
+        this.nuevoTitulo,
+        this.nuevaDescripcion,
+        this.nuevaPrioridad
+      );
+      this.cancelarNueva(); // Reseteamos y cerramos el formulario
     }
+  }
+
+  // Al pulsar la X ❌
+  cancelarNueva() {
+    this.mostrandoFormularioNueva = false;
+    this.nuevoTitulo = '';
+    this.nuevaDescripcion = '';
+    this.nuevaPrioridad = 'normal';
   }
 
   moverTarea(id: number, nuevoEstado: string) {
@@ -68,16 +95,28 @@ export class DashboardComponent implements OnInit {
   }
 
   eliminar(id: number) {
-    if (confirm('¿Seguro que quieres borrarla?')) {
-      this.misTareas = this.taskService.borrarTarea(id);
+    this.tareaABorrar = id;
+  }
+  confirmarBorrado() {
+    if (this.tareaABorrar !== null) {
+      this.misTareas = this.taskService.borrarTarea(this.tareaABorrar);
+      this.tareaABorrar = null; // Cerramos el modal
     }
+  }
+  cancelarBorrado() {
+    this.tareaABorrar = null; // Cerramos el modal sin borrar
   }
 
   logout() {
-    if (confirm('¿Quieres cerrar sesión?')) {
-      // Aquí podrías borrar el token si usáramos uno,
-      // por ahora simplemente volvemos al login
-      this.router.navigate(['/login']);
-    }
+    this.mostrandoModalLogout = true; // Abrimos el modal en lugar del confirm
+  }
+
+  confirmarLogout() {
+    this.mostrandoModalLogout = false;
+    this.router.navigate(['/login']); // Redirigimos al login
+  }
+
+  cancelarLogout() {
+    this.mostrandoModalLogout = false; // Cerramos sin hacer nada
   }
 }
