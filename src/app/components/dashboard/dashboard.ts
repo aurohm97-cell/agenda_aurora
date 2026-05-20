@@ -23,16 +23,23 @@ export class DashboardComponent implements OnInit {
   nuevaDescripcion: string = '';
   nuevaPrioridad: string = 'normal';
   mostrandoModalLogout: boolean = false;
+  usuarioNombre: string = '';
+usuarioRol: string = ''; // Opcional, por si quieres mostrar su rol
 
   constructor(
     private taskService: TaskService,
     private router: Router,
-  ) {}
+  ) {} 
 
   ngOnInit() {
-    // Al cargar la pantalla, leemos las tareas del localStorage
-    this.misTareas = this.taskService.getTareas();
-  }
+  // Al cargar la pantalla, leemos las tareas
+  this.misTareas = this.taskService.getTareas();
+
+  // 👤 Recuperamos los datos del usuario que inició sesión
+  // Usamos un valor por defecto ("Desarrollador/a" y "Admin") por si acaso aún no lo has guardado en el Login
+  this.usuarioNombre = localStorage.getItem('usuarioNombre') || 'Aurora'; 
+  this.usuarioRol = localStorage.getItem('usuarioRol') || 'Administrador';
+}
 
   // Al pulsar "+ Añadir tarea", en vez de un prompt, abrimos el formulario inline
   agregarNueva() {

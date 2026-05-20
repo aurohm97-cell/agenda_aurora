@@ -240,3 +240,41 @@ header button:hover {
 .btn-primary:hover {
   background: #2980b9;
 }
+
+/* --- BIENVENIDA DE USUARIO --- */
+.dashboard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e0e0e0;
+  margin-bottom: 20px;
+}
+
+.user-welcome {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.user-welcome h2 {
+  margin: 0;
+  color: #1a2a3a;
+}
+
+.welcome-text {
+  color: #555;
+  font-size: 0.95rem;
+}
+
+.role-badge {
+  background-color: #e8f4fd;
+  color: #2980b9;
+  padding: 2px 8px;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-left: 5px;
+  text-transform: uppercase;
+}

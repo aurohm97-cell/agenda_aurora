@@ -1,8 +1,11 @@
 <div class="dashboard-container">
   <header>
-    <h1>Mi Agenda Aurora</h1>
-    <button (click)="logout()">Cerrar Sesión</button>
-  </header>
+    <div class="dashboard-header">
+  <div class="user-welcome">
+    <h2>Mi Agenda Aurora</h2>
+    <span class="welcome-text">👋 ¡Hola, <strong>{{ usuarioNombre }}</strong>! <small class="role-badge">{{ usuarioRol }}</small></span>
+  </div>
+    <button class="btn-danger" (click)="logout()">Cerrar Sesión</button>
 
   <div class="board">
     <div class="column">
