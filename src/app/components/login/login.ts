@@ -1,8 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
-import { Router, RouterModule } from '@angular/router'; // Añadimos Router para poder navegar
-import { AuthService } from '../../services/auth'; // Importamos tu servicio corto
+import { Router, RouterModule } from '@angular/router'; 
+import { AuthService } from '../../services/auth'; 
+
+// 👇 1. Importamos las herramientas de Firebase que necesitamos aquí
+import { Firestore, collection, query, where, getDocs } from '@angular/fire/firestore';
 
 @Component({
   selector: 'app-login',
@@ -17,19 +20,36 @@ export class LoginComponent {
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
 
-  // Inyectamos el servicio y el router en el constructor
+  // 👇 2. Inyectamos 'firestore' en el constructor junto a los que ya tenías
   constructor(
     private authService: AuthService,
     private router: Router,
+    private firestore: Firestore 
   ) {}
 
-  onLogin() {
+  // 👇 3. Añadimos 'async' a la función
+  async onLogin() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      const esValido = this.authService.login(email!, password!);
+      
+      // 👇 4. Añadimos 'await' porque el servicio ahora va a internet
+      const esValido = await this.authService.login(email!, password!);
 
       if (esValido) {
-        // En lugar de solo el alert, ahora navegamos:
+        // 👇 5. Buscamos los datos de este usuario en Firebase para la cabecera
+        const usuariosCollection = collection(this.firestore, 'usuarios');
+        const q = query(usuariosCollection, where('email', '==', email));
+        const querySnapshot = await getDocs(q);
+        
+        if (!querySnapshot.empty) {
+          const usuarioData = querySnapshot.docs[0].data();
+          
+          // 💾 Guardamos su nombre y rol reales en el localStorage
+          localStorage.setItem('usuarioNombre', usuarioData['nombre']);
+          localStorage.setItem('usuarioRol', usuarioData['rol'] || 'Usuario');
+        }
+
+        // Navegamos al dashboard
         this.router.navigate(['/dashboard']);
       } else {
         alert('Email o contraseña incorrectos.');

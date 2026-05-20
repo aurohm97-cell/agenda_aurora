@@ -1,39 +1,36 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Firestore, collection, addDoc, getDocs, query, where } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root',
-})
+  })
 export class AuthService {
-  // Este será el nombre de nuestra "tabla" en el navegador
-  private readonly DB_NAME = 'usuarios_agenda_aurora';
+  // Inyectamos la base de datos de Firebase
+  private firestore = inject(Firestore);
+  private usuariosCollection = collection(this.firestore, 'usuarios');
 
   constructor() {}
 
-  // 1. Leer los usuarios que ya existan
-  private getUsuariosLocales(): any[] {
-    const data = localStorage.getItem(this.DB_NAME);
-    return data ? JSON.parse(data) : [];
-  }
+  // 1. Guardar un usuario nuevo en la nube (Registro)
+  async registrar(nombre: string, email: string, password: string, rol: string = 'Usuario'): Promise<boolean> {
+    // Comprobamos si el email ya existe en Firebase
+    const q = query(this.usuariosCollection, where('email', '==', email));
+    const querySnapshot = await getDocs(q);
 
-  // 2. Guardar un usuario nuevo (Registro)
-  // En el archivo auth.ts
-  registrar(nombre: string, email: string, password: string): boolean {
-    const usuarios = this.getUsuariosLocales();
-
-    // Comprobamos si el email ya existe
-    if (usuarios.find((u: any) => u.email === email)) {
-      return false;
+    if (!querySnapshot.empty) {
+      return false; // El email ya está registrado
     }
 
-    // Guardamos el nuevo usuario con su nombre incluido
-    usuarios.push({ nombre, email, password });
-    localStorage.setItem(this.DB_NAME, JSON.stringify(usuarios));
+    // Guardamos el nuevo usuario en la colección de la nube
+    await addDoc(this.usuariosCollection, { nombre, email, password, rol });
     return true;
   }
 
-  // 3. Comprobar credenciales (Login)
-  login(email: string, pass: string): boolean {
-    const usuarios = this.getUsuariosLocales();
-    return usuarios.some((u) => u.email === email && u.password === pass);
+  // 2. Comprobar credenciales en la nube (Login)
+  async login(email: string, pass: string): Promise<boolean> {
+    const q = query(this.usuariosCollection, where('email', '==', email), where('password', '==', pass));
+    const querySnapshot = await getDocs(q);
+    
+    return !querySnapshot.empty; // Devuelve true si encuentra coincidencia
   }
 }
