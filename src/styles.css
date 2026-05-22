@@ -1,1 +1,102 @@
-/* You can add global styles to this file, and also import other style files */
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--color-fondo); /* Fondo gris claro sólido para contraste */
+}
+
+.login-card {
+  background: var(--color-superficie);
+  padding: 40px;
+  border-radius: 16px; /* Bordes más redondeados y consistentes */
+  box-shadow: 0 4px 20px rgba(132, 87, 99, 0.08); /* Sombra suave tintada de ciruela */
+  width: 100%;
+  max-width: 420px; /* Un poco más de ancho para mejor legibilidad */
+}
+
+h2 {
+  font-family: sans-serif; /* Asegurar la fuente correcta */
+  color: var(--color-primario); /* Ciruela para el título principal */
+  font-size: 2rem;
+  margin-bottom: 24px;
+  text-align: center;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  color: var(--color-texto-suave); /* Gris ciruela suave para etiquetas */
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+
+.form-group input {
+  font-family: sans-serif; /* Asegurar la fuente correcta en inputs */
+  width: 100%;
+  padding: 12px;
+  border: 2px solid rgba(132, 87, 99, 0.1);
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+  color: var(--color-texto-principal);
+}
+
+/* Placeholders con color suave de la paleta */
+.form-group input::placeholder {
+  color: var(--color-texto-suave);
+  opacity: 0.7;
+}
+
+/* Foco de los inputs (10% Acento: Rosa) */
+.form-group input:focus {
+  outline: none;
+  border-color: var(--color-acento);
+}
+
+/* Botón Principal de Entrar (30% Secundario: El Ciruela manda aquí, como en Dashboard) */
+.btn-login {
+  width: 100%;
+  padding: 14px;
+  background-color: var(--color-primario);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-login:hover {
+  opacity: 0.9;
+}
+
+/* Enlace para ir al Registro (10% Acento: Rosa) */
+.register-link {
+  display: block;
+  text-align: center;
+  margin-top: 20px;
+  color: var(--color-acento);
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.register-link:hover {
+  text-decoration: underline;
+}
+
+/* Estilos de botones de acción unificados (usados en modales de Dashboard, copiados aquí por consistencia) */
+.btn-action {
+  padding: 8px 12px;
+  background-color: var(--color-superficie);
+  color: var(--color-texto-suave);
+  border: 1px solid rgba(132, 87, 99, 0.2);
+}
+.btn-action:hover {
+  background-color: var(--color-fondo);
+}

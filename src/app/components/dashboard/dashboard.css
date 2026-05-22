@@ -1,280 +1,304 @@
-/* Contenedor principal */
-.dashboard-container {
-  padding: 20px;
-  background-color: #f4f7f6;
-  min-height: 100vh;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+/* ==========================================
+   🎨 CONFIGURACIÓN GENERAL Y MARCO EXTERIOR (WILDFLOWERS)
+   ========================================== */
+.dashboard-container, 
+header, 
+.dashboard-header,
+.board,
+.column, 
+.task-card, 
+input, 
+textarea, 
+button, 
+p, 
+span, 
+strong, 
+h1, 
+h2, 
+h3 {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  box-sizing: border-box;
 }
 
-/* Cabecera */
-header {
+/* Contenedor principal: El doble borde exterior ahora es un marco Verde Bosque sublime */
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  padding: 40px; /* Espacio de cortesía para que el doble borde respire */
+  background-color: #fafaf8; /* Fondo off-white limpísimo */
+  min-height: 100vh;
+  width: 100%;
+  
+  /* Concepto de doble borde adaptado con el color insignia */
+  border: 4px double #519755;
+  border-radius: 20px;
+}
+
+/* ==========================================
+   🏢 CABECERA DE BIENVENIDA 
+   ========================================== */
+header, .dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  border-bottom: 2px solid #ddd;
-  padding-bottom: 10px;
+  padding: 20px 30px;
+  background-color: #ffffff;
+  border-radius: 12px;
+  border: 1px solid #e1ebe2; /* Borde sutil en tono verde claro */
+  box-shadow: 0 4px 14px rgba(81, 151, 85, 0.04);
+  width: 100%;
 }
 
-header h1 {
-  color: #2c3e50;
+header h1, .user-welcome h2 {
+  color: #519755; /* Título principal en Verde Bosque */
   margin: 0;
+  font-weight: 700;
+  font-size: 1.8rem;
 }
 
-/* Botón de cerrar sesión */
+/* Etiqueta de ADMINISTRADOR (Verde Menta de la nueva paleta) */
+.role-badge {
+  background-color: #A8DCAB; 
+  color: #1e3d21; /* Texto oscuro hiper-legible sobre el menta */
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-left: 8px;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+/* Botón de Cerrar Sesión interactivo */
 header button {
-  background-color: #e74c3c;
-  color: white;
-  border: none;
-  padding: 8px 15px;
-  border-radius: 5px;
+  background-color: transparent;
+  color: #519755;
+  border: 2px solid #519755;
+  padding: 10px 22px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 0.95rem;
   cursor: pointer;
-  transition: background 0.3s;
+  white-space: nowrap;
+  transition: all 0.2s ease;
 }
 
 header button:hover {
-  background-color: #c0392b;
+  background-color: #519755;
+  color: #ffffff;
 }
 
-/* El Tablero (Board) */
+/* ==========================================
+   📋 EL TABLERO: COLUMNAS CON ENCAJE MILIMÉTRICO
+   ========================================== */
 .board {
   display: flex;
-  gap: 20px;
+  gap: 24px;
   align-items: flex-start;
-  overflow-x: auto; /* Por si añades muchas columnas */
+  overflow-x: auto;
+  width: 100%;
+  padding-bottom: 20px;
 }
 
-/* Cada Columna */
+/* Columnas: Usan un fondo sutil inspirado en el Rosa Palo para contrastar las tarjetas */
 .column {
-  background-color: #ebedf0;
-  border-radius: 8px;
-  width: 300px;
-  min-width: 300px;
-  padding: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  background-color: #eff5ef; /* Fondo sutil extraído de tu #DBAAA7 */
+  border: 1px solid #d4ebd6;;
+  border-radius: 14px;
+  width: 320px;
+  min-width: 320px;
+  padding: 0; /* Eliminado el padding superior para evitar el reborde extraño */
+  overflow: hidden; /* Fusión perfecta del h3 con las esquinas redondeadas */
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.02);
 }
 
+/* Título de la Columna: Bloque sólido Verde Bosque de alto impacto */
 .column h3 {
-  margin-top: 0;
-  color: #34495e;
+  margin: 0;
+  color: #ffffff;
+  background-color: #519755; /* Verde Bosque como rey del orden */
+  padding: 16px;
   text-transform: uppercase;
-  font-size: 0.9rem;
-  letter-spacing: 1px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-align: center;
 }
 
-/* Lista de tareas */
 .task-list {
-  min-height: 50px;
-  margin-bottom: 15px;
+  padding: 16px;
+  min-height: 60px;
 }
 
-/* Cada Tarjeta de Tarea */
+/* ==========================================
+   🃏 TARJETAS DE TAREA (Toques de Malva e Interacción)
+   ========================================== */
 .task-card {
-  background-color: white;
-  border-radius: 5px;
-  padding: 12px;
-  margin-bottom: 10px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12);
+  background-color: #ffffff;
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 14px;
+  border: 1px solid #e3dede;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.01);
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
 }
 
-.task-card p {
-  margin: 0;
-  color: #2c3e50;
-  word-wrap: break-word;
+/* Al pasar el ratón, la tarjeta se ilumina en el precioso Malva de la paleta */
+.task-card:hover {
+  transform: translateY(-3px);
+  border-color: #BE91BE; /* Iluminación perimetral Malva */
+  box-shadow: 0 6px 14px rgba(190, 145, 190, 0.18);
 }
 
-/* Título de la tarea */
+/* Título de la tarea (Máxima legibilidad en verde noche) */
 .task-content strong {
   display: block;
-  font-size: 1.1rem;
-  color: #2c3e50;
-  margin-bottom: 5px;
+  font-size: 1.05rem;
+  color: #1a2e1c; 
+  margin-bottom: 4px;
+  font-weight: 700;
 }
 
-/* Descripción de la tarea */
 .description {
   font-size: 0.9rem;
-  color: #7f8c8d;
-  margin-bottom: 10px;
+  color: #4a544b; /* Gris apagado con matiz de bosque */
+  margin-bottom: 5px;
   line-height: 1.4;
 }
 
-/* Estilos para el modo edición */
+/* Botones pequeños de las tarjetas (Editar, mover, borrar) */
+.task-card button {
+  border: 1px solid #d0cbd0;
+  background: #ffffff;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: #555555;
+  font-weight: 600;
+  transition: all 0.15s;
+}
+
+.task-card button:hover {
+  background-color: #fdf5fd; /* Toque malva sutil */
+  border-color: #BE91BE;
+  color: #5e3b5e;
+}
+
+/* ==========================================
+   ➕ BOTÓN AÑADIR TAREA (Sofisticado y con Hover Sólido)
+   ========================================== */
+.add-btn {
+  width: calc(100% - 32px);
+  margin: 0 16px 16px 16px;
+  background-color: transparent;
+  color: #519755;
+  border: 2px dashed #519755;
+  padding: 12px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.add-btn:hover {
+  background-color: #519755;
+  color: #ffffff;
+  border-style: solid;
+}
+
+/* Inputs de edición */
 .edit-title {
   width: 100%;
   font-weight: bold;
   font-size: 1.1rem;
   padding: 8px;
-  border: 1px solid #3498db;
-  border-radius: 4px;
+  border: 2px solid #BE91BE; /* Foco en malva */
+  border-radius: 6px;
   margin-bottom: 8px;
 }
 
 .edit-desc {
   width: 100%;
-  min-height: 80px; /* Aquí le damos el tamaño extra que buscabas */
+  min-height: 80px;
   padding: 8px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-family: inherit;
+  border: 2px solid #e3dede;
+  border-radius: 6px;
   font-size: 0.9rem;
-  resize: vertical; /* Permite al usuario estirarlo si quiere */
+  resize: vertical;
   margin-bottom: 10px;
 }
 
-/* Contenedor de botones dentro de la tarjeta */
-.actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 5px;
-  flex-wrap: wrap; /* Por si hay muchos botones, que bajen de línea si no caben */
-  margin-top: 5px;
-}
-
-.task-card button {
-  border: none;
-  background: #f0f0f0;
-  padding: 4px 6px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-size: 0.9rem;
-}
-
-.task-card button:hover {
-  background:#e2e2e2;
-}
-
-/* Botón de añadir tarea */
-.add-btn {
-  width: 100%;
-  background-color: #27ae60;
-  color: white;
-  border: none;
-  padding: 10px;
-  border-radius: 5px;
-  cursor: pointer;
-  font-weight: bold;
-  transition: background 0.3s;
-}
-
-.add-btn:hover {
-  background-color: #219150;
-}
-
-/* --- MODAL DE BORRADO --- */
+/* ==========================================
+   🚨 MODAL DE CONFIRMACIÓN (Usa el Rosa Palo para peligro)
+   ========================================== */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.5); /* Fondo oscuro semitransparente */
+  background: rgba(26, 46, 28, 0.4); /* Fondo oscuro con matiz forestal */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Asegura que se ponga por encima de cualquier otro elemento */
+  z-index: 9999;
 }
 
 .modal-card {
-  background: white;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  background: #ffffff;
+  padding: 30px;
+  border-radius: 16px;
+  border: 2px solid #519755;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 350px;
+  max-width: 380px;
   width: 90%;
 }
 
 .modal-card h3 {
   margin-top: 0;
-  color: #2c3e50;
-}
-
-.modal-card p {
-  color: #7f8c8d;
-  margin-bottom: 20px;
+  color: #519755;
+  font-size: 1.4rem;
+  font-weight: 700;
 }
 
 .modal-actions {
   display: flex;
   justify-content: center;
-  gap: 15px;
+  gap: 12px;
 }
 
 .btn-cancel {
-  background: #ecf0f1;
-  color: #333;
+  background: #f5eae8;
+  color: #519755;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
 }
 
 .btn-danger {
-  background: #e74c3c;
+  background: #DBAAA7; /* Tu Rosa Palo actúa como el botón de alerta/borrado */
   color: white;
   border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
+  padding: 10px 20px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
+  transition: opacity 0.2s;
 }
 
-.btn-cancel:hover { background: #d5dbdb; }
-.btn-danger:hover { background: #c0392b; }
-
-.btn-primary {
-  background: #3498db;
-  color: white;
-  border: none;
-  padding: 8px 16px;
-  border-radius: 4px;
-  cursor: pointer;
-  font-weight: bold;
+.btn-danger:hover {
+  opacity: 0.9;
 }
-
-.btn-primary:hover {
-  background: #2980b9;
-}
-
-/* --- BIENVENIDA DE USUARIO --- */
-.dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 15px 20px;
-  background-color: #ffffff;
-  border-bottom: 1px solid #e0e0e0;
-  margin-bottom: 20px;
-}
-
-.user-welcome {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.user-welcome h2 {
-  margin: 0;
-  color: #1a2a3a;
-}
-
-.welcome-text {
-  color: #555;
-  font-size: 0.95rem;
-}
-
-.role-badge {
-  background-color: #e8f4fd;
-  color: #2980b9;
-  padding: 2px 8px;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: bold;
-  margin-left: 5px;
-  text-transform: uppercase;
+.btn-cancel:hover {
+  background: #ebdcd9;
 }

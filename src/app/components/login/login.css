@@ -1,30 +1,63 @@
-.login-container {
+/* ==========================================
+   🎨 CONFIGURACIÓN GENERAL Y TIPOGRAFÍA (WILDFLOWERS)
+   ========================================== */
+.login-container, 
+.register-container,
+.login-card, 
+input, 
+button, 
+p, 
+a, 
+h2, 
+label {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  box-sizing: border-box;
+}
+
+/* Pantalla completa con el marco de la paleta Wildflowers */
+.login-container, .register-container {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #f4f7f6 0%, #dcdde1 100%);
+  min-height: 100vh;
+  background-color: #fafaf8; /* Fondo off-white limpio */
+  padding: 40px;
+  
+  /* El doble borde distintivo que ya tenemos en el Dashboard */
+  border: 4px double #519755;
+  border-radius: 20px;
 }
 
+/* ==========================================
+   🃏 LA TARJETA (LOGIN / REGISTER CARD)
+   ========================================== */
 .login-card {
-  background: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  background: #ffffff;
+  padding: 45px;
+  border-radius: 16px;
+  /* Borde fino en salvia para dar estructura */
+  border: 1px solid #d4ebd6;
+  box-shadow: 0 10px 30px rgba(81, 151, 85, 0.08);
   width: 100%;
-  max-width: 400px;
+  max-width: 420px;
   text-align: center;
 }
 
 .login-card h2 {
-  color: #2c3e50;
-  margin-bottom: 20px;
+  color: #519755; /* Título en Verde Bosque */
+  margin-bottom: 30px;
+  font-size: 2rem;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
+/* ==========================================
+   📝 FORMULARIOS E INPUTS
+   ========================================== */
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
 .form-group {
@@ -33,128 +66,101 @@ form {
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  color: #7f8c8d;
+  margin-bottom: 8px;
+  color: #519755; /* Etiquetas en verde para coherencia */
   font-size: 0.9rem;
+  font-weight: 600;
 }
 
 input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-sizing: border-box; /* Muy importante para que el padding no ensanche el input */
+  padding: 12px 16px;
+  background-color: #f9fbf9; /* Un fondo de input muy ligeramente verdoso */
+  border: 1px solid #d4ebd6;
+  border-radius: 8px;
+  font-size: 1rem;
+  color: #1a2e1c;
+  transition: all 0.2s ease;
 }
 
+/* Al hacer clic para escribir: Foco en Malva para destacar */
 input:focus {
   outline: none;
-  border-color: #3498db;
+  background-color: #ffffff;
+  border-color: #BE91BE;
+  box-shadow: 0 0 0 4px rgba(190, 145, 190, 0.15);
 }
 
-.btn-primary {
-  background-color: #3498db;
-  color: white;
+/* ==========================================
+   🔘 BOTONES (WILDFLOWERS STYLE)
+   ========================================== */
+/* Botón Principal: Verde Bosque Sólido */
+.btn-primary, button[type="submit"] {
+  width: 100%;
+  padding: 14px;
+  background-color: #519755;
+  color: #ffffff;
   border: none;
-  padding: 12px;
-  border-radius: 5px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.2s ease;
   margin-top: 10px;
 }
 
 .btn-primary:hover {
-  background-color: #2980b9;
+  background-color: #437d46;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(81, 151, 85, 0.2);
 }
 
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+/* ==========================================
+   🔗 ENLACES Y TEXTOS INFERIORES
+   ========================================== */
 p {
-  margin-top: 20px;
-  color: #7f8c8d;
-  font-size: 0.9rem;
+  margin-top: 25px;
+  color: #616e62;
+  font-size: 0.95rem;
 }
 
+/* Enlace de intercambio (Registrate / Logueate) en Malva */
 a {
-  color: #3498db;
+  color: #BE91BE;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
+  transition: color 0.2s;
 }
 
 a:hover {
+  color: #a372a3;
   text-decoration: underline;
 }
 
-/* --- ESTILOS PARA LOS MODALES --- */
+/* ==========================================
+   🚨 ESTILO PARA EL MODAL DE ERROR (Si lo usas en el login)
+   ========================================== */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background: rgba(0, 0, 0, 0.6); /* Fondo oscuro transparente */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999; /* Asegura que flote por encima de todo */
+  background: rgba(26, 46, 28, 0.5); /* Velo oscuro con matiz forestal */
 }
 
 .modal-box {
-  background: #ffffff;
-  padding: 24px;
-  border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  text-align: center;
-  max-width: 400px;
-  width: 85%;
-  animation: aparecer 0.2s ease-out;
+  border: 2px solid #DBAAA7; /* Borde Rosa Palo para errores */
 }
 
 .modal-box h3 {
-  margin-top: 0;
-  font-size: 1.4rem;
-  color: #1a1a1a;
-}
-
-/* Variante si el modal es de error */
-.modal-box.error h3 {
-  color: #dc3545; /* Rojo de alerta */
-}
-
-.modal-box p {
-  color: #555555;
-  margin: 12px 0 24px 0;
-  font-size: 1rem;
-  line-height: 1.5;
-}
-
-/* Botones genéricos de los modales */
-.modal-box button {
-  padding: 10px 24px;
-  border: none;
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background 0.2s;
-}
-
-.btn-primary {
-  background-color: #0056b3;
-  color: white;
+  color: #519755;
 }
 
 .btn-danger {
-  background-color: #dc3545;
+  background-color: #DBAAA7; /* Rosa Palo para el botón de cerrar error */
   color: white;
-}
-
-/* Animación suave al salir */
-@keyframes aparecer {
-  from {
-    transform: scale(0.9);
-    opacity: 0;
-  }
-  to {
-    transform: scale(1);
-    opacity: 1;
-  }
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  font-weight: bold;
 }
