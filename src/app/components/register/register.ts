@@ -12,6 +12,9 @@ import { AuthService } from '../../services/auth'; // Ruta a tu servicio corto
   styleUrls: ['./register.css'],
 })
 export class RegisterComponent {
+mostrandoModalExito = false;
+mostrandoModalError = false;
+
   registerForm = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
     email: new FormControl('', [Validators.required, Validators.email]),
@@ -20,8 +23,7 @@ export class RegisterComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router,
-  ) {}
+    private router: Router) {}
 
   async onRegister() {
     if (this.registerForm.valid) {
@@ -33,11 +35,23 @@ export class RegisterComponent {
       const exito = await this.authService.registrar(nombre!, email!, password!);
 
       if (exito) {
-        alert('¡Usuario creado con éxito! Ahora puedes loguearte.');
-        this.router.navigate(['/login']);
+        // En vez de alert, abrimos el modal de éxito
+        this.mostrandoModalExito = true; 
       } else {
-        alert('Este email ya está registrado.');
+        // En vez de alert, abrimos el modal de error
+        this.mostrandoModalError = true; 
       }
     }
+  }
+
+  // 2. Funciones para cerrar los modales
+  cerrarModalError() {
+    this.mostrandoModalError = false;
+  }
+
+  cerrarModalExito() {
+    this.mostrandoModalExito = false;
+    // Redirigimos al login JUSTO CUANDO el usuario acepta el modal de éxito
+    this.router.navigate(['/login']); 
   }
 }

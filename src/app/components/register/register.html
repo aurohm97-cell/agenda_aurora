@@ -29,3 +29,23 @@
     <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
   </div>
 </div>
+<!-- Modal de éxito -->
+ @if (mostrandoModalExito) {
+  <div class="modal-overlay">
+    <div class="modal-box">
+      <h3>¡Registro Completado!</h3>
+      <p>Tu cuenta ha sido creada con éxito. Ya puedes iniciar sesión.</p>
+      <button (click)="cerrarModalExito()" class="btn-primary">Aceptar</button>
+    </div>
+  </div>
+}
+
+@if (mostrandoModalError) {
+  <div class="modal-overlay">
+    <div class="modal-box error">
+      <h3>Error al registrarse</h3>
+      <p>Este correo electrónico ya está registrado en el sistema.</p>
+      <button (click)="cerrarModalError()" class="btn-danger">Intentarlo de nuevo</button>
+    </div>
+  </div>
+}

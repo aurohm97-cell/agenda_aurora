@@ -15,6 +15,7 @@ import { Firestore, collection, query, where, getDocs } from '@angular/fire/fire
   styleUrls: ['./login.css'],
 })
 export class LoginComponent {
+  mostrandoModalError = false;
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
     password: new FormControl('', [Validators.required, Validators.minLength(6)]),
@@ -29,31 +30,37 @@ export class LoginComponent {
 
   // 👇 3. Añadimos 'async' a la función
   async onLogin() {
-    if (this.loginForm.valid) {
-      const { email, password } = this.loginForm.value;
+  if (this.loginForm.valid) {
+    const { email, password } = this.loginForm.value;
+    
+    // 👇 4. Añadimos 'await' porque el servicio ahora va a internet
+    const esValido = await this.authService.login(email!, password!);
+
+    if (esValido) {
+      // 👇 5. Buscamos los datos de este usuario en Firebase para la cabecera
+      const usuariosCollection = collection(this.firestore, 'usuarios');
+      const q = query(usuariosCollection, where('email', '==', email));
+      const querySnapshot = await getDocs(q);
       
-      // 👇 4. Añadimos 'await' porque el servicio ahora va a internet
-      const esValido = await this.authService.login(email!, password!);
-
-      if (esValido) {
-        // 👇 5. Buscamos los datos de este usuario en Firebase para la cabecera
-        const usuariosCollection = collection(this.firestore, 'usuarios');
-        const q = query(usuariosCollection, where('email', '==', email));
-        const querySnapshot = await getDocs(q);
+      if (!querySnapshot.empty) {
+        const usuarioData = querySnapshot.docs[0].data();
         
-        if (!querySnapshot.empty) {
-          const usuarioData = querySnapshot.docs[0].data();
-          
-          // 💾 Guardamos su nombre y rol reales en el localStorage
-          localStorage.setItem('usuarioNombre', usuarioData['nombre']);
-          localStorage.setItem('usuarioRol', usuarioData['rol'] || 'Usuario');
-        }
-
-        // Navegamos al dashboard
-        this.router.navigate(['/dashboard']);
-      } else {
-        alert('Email o contraseña incorrectos.');
+        // 💾 Guardamos su nombre y rol reales en el localStorage
+        localStorage.setItem('usuarioNombre', usuarioData['nombre']);
+        localStorage.setItem('usuarioRol', usuarioData['rol'] || 'Usuario');
       }
+
+      // Navegamos al dashboard
+      this.router.navigate(['/dashboard']);
+    } else {
+      // 🔄 CAMBIO AQUÍ: En vez de alert, abrimos nuestro modal personalizado
+      this.mostrandoModalError = true;
     }
   }
+}
+
+// 2. Añade también esta pequeña función debajo de onLogin para poder cerrar el cartel:
+cerrarModalError() {
+  this.mostrandoModalError = false;
+}
 }

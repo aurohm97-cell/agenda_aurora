@@ -23,3 +23,12 @@
     <p>¿No tienes cuenta? <a routerLink="/register">Regístrate aquí</a></p>
   </div>
 </div>
+@if (mostrandoModalError) {
+  <div class="modal-overlay">
+    <div class="modal-box error">
+      <h3>Acceso Denegado</h3>
+      <p>El correo electrónico o la contraseña no son correctos. Por favor, revísalos.</p>
+      <button (click)="cerrarModalError()" class="btn-danger">Entendido</button>
+    </div>
+  </div>
+}
