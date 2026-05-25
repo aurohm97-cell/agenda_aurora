@@ -1,5 +1,5 @@
 /* ==========================================
-   🎨 CONFIGURACIÓN GENERAL Y TIPOGRAFÍA (WILDFLOWERS)
+   🎨 CONFIGURACIÓN GENERAL Y TIPOGRAFÍA
    ========================================== */
 .login-container, 
 .register-container,
@@ -14,37 +14,47 @@ label {
   box-sizing: border-box;
 }
 
-/* Pantalla completa con el marco de la paleta Wildflowers */
-.login-container, .register-container {
+/* Contenedor principal: Ejecuta el efecto "Respiración" de fondo */
+.login-container {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  background-color: #fafaf8; /* Fondo off-white limpio */
-  padding: 40px;
+  overflow: hidden;
+  border: 4px double #519755; /* Tu icónico doble borde verde */
   
-  /* El doble borde distintivo que ya tenemos en el Dashboard */
-  border: 4px double #519755;
-  border-radius: 20px;
+  /* Gradiente liso continuo que fusiona toda la paleta Aurora */
+  background: linear-gradient(45deg, #fafaf8, #d4ebd6, #DBAAA7, #BE91BE, #fafaf8);
+  background-size: 400% 400%;
+  animation: gradienteVivo 16s ease infinite;
+}
+
+/* Motor de movimiento suave para el gradiente de fondo */
+@keyframes gradienteVivo {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }
 
 /* ==========================================
-   🃏 LA TARJETA (LOGIN / REGISTER CARD)
+   🃏 LA TARJETA (LOGIN CARD) - TOTALMENTE INTACTA
    ========================================== */
 .login-card {
+  position: relative;
+  z-index: 10;
   background: #ffffff;
   padding: 45px;
   border-radius: 16px;
-  /* Borde fino en salvia para dar estructura */
   border: 1px solid #d4ebd6;
   box-shadow: 0 10px 30px rgba(81, 151, 85, 0.08);
   width: 100%;
-  max-width: 420px;
+  max-width: 480px;
   text-align: center;
 }
 
 .login-card h2 {
-  color: #519755; /* Título en Verde Bosque */
+  color: #519755;
   margin-bottom: 30px;
   font-size: 2rem;
   font-weight: 700;
@@ -67,7 +77,7 @@ form {
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #519755; /* Etiquetas en verde para coherencia */
+  color: #519755;
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -75,7 +85,7 @@ form {
 input {
   width: 100%;
   padding: 12px 16px;
-  background-color: #f9fbf9; /* Un fondo de input muy ligeramente verdoso */
+  background-color: #f9fbf9;
   border: 1px solid #d4ebd6;
   border-radius: 8px;
   font-size: 1rem;
@@ -83,7 +93,6 @@ input {
   transition: all 0.2s ease;
 }
 
-/* Al hacer clic para escribir: Foco en Malva para destacar */
 input:focus {
   outline: none;
   background-color: #ffffff;
@@ -92,13 +101,12 @@ input:focus {
 }
 
 /* ==========================================
-   🔘 BOTONES (WILDFLOWERS STYLE)
+   🔘 BOTONES
    ========================================== */
-/* Botón Principal: Verde Bosque Sólido */
 .btn-primary, button[type="submit"] {
   width: 100%;
   padding: 14px;
-  background-color: #519755;
+  background-color: #5a8f62;
   color: #ffffff;
   border: none;
   border-radius: 8px;
@@ -110,25 +118,22 @@ input:focus {
 }
 
 .btn-primary:hover {
-  background-color: #437d46;
+  background-color: #497550;
   transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(81, 151, 85, 0.2);
+  box-shadow: 0 4px 12px rgba(90, 143, 98, 0.15);
 }
 
-.btn-primary:active {
-  transform: translateY(0);
+button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }
 
-/* ==========================================
-   🔗 ENLACES Y TEXTOS INFERIORES
-   ========================================== */
 p {
   margin-top: 25px;
   color: #616e62;
   font-size: 0.95rem;
 }
 
-/* Enlace de intercambio (Registrate / Logueate) en Malva */
 a {
   color: #BE91BE;
   text-decoration: none;
@@ -142,25 +147,42 @@ a:hover {
 }
 
 /* ==========================================
-   🚨 ESTILO PARA EL MODAL DE ERROR (Si lo usas en el login)
+   🚨 MODAL DE ERROR
    ========================================== */
 .modal-overlay {
-  background: rgba(26, 46, 28, 0.5); /* Velo oscuro con matiz forestal */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(26, 46, 28, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
 }
 
 .modal-box {
-  border: 2px solid #DBAAA7; /* Borde Rosa Palo para errores */
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 400px;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+  border: 2px solid #DBAAA7;
 }
 
 .modal-box h3 {
   color: #519755;
+  margin-top: 0;
 }
 
 .btn-danger {
-  background-color: #DBAAA7; /* Rosa Palo para el botón de cerrar error */
+  background-color: #DBAAA7;
   color: white;
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
   font-weight: bold;
+  cursor: pointer;
 }

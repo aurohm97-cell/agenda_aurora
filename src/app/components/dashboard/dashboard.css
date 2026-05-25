@@ -26,7 +26,9 @@ h3 {
   flex-direction: column;
   gap: 30px;
   padding: 40px; /* Espacio de cortesía para que el doble borde respire */
-  background-color: #fafaf8; /* Fondo off-white limpísimo */
+   background: linear-gradient(135deg, #fafaf8 0%, #d4ebd6 100%);
+  /* El JS sobreescribirá backgroundImage dinámicamente */
+  transition: background-image 0.1s ease; /* Fondo off-white limpísimo */
   min-height: 100vh;
   width: 100%;
   

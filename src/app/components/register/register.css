@@ -1,30 +1,68 @@
-.login-container {
+.register-container,
+.login-card, 
+input, 
+button, 
+p, 
+a, 
+h2, 
+label {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
+  box-sizing: border-box;
+}
+
+.register-container {
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  background: linear-gradient(135deg, #f4f7f6 0%, #dcdde1 100%);
+  min-height: 100vh;
+  overflow: hidden;
+  border: 4px double #BE91BE; /* Doble borde en lila en vez de verde */
+
+  /* Mismos colores Aurora pero orden invertido y ángulo distinto */
+  background: linear-gradient(135deg, #fafaf8, #BE91BE, #DBAAA7, #d4ebd6, #fafaf8);
+  background-size: 400% 400%;
+  animation: gradienteVivoCarta 16s ease infinite;
 }
 
 .login-card {
-  background: white;
-  padding: 40px;
-  border-radius: 10px;
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+
+  background: #ffffff;
+  padding: 45px;
+  border-radius: 16px;
+  border: 1px solid #d4ebd6;
+  box-shadow: 0 10px 30px rgba(81, 151, 85, 0.08);
   width: 100%;
-  max-width: 400px;
+  max-width: 480px; /* 👈 Ancho de 480px igual que el login */
   text-align: center;
 }
 
 .login-card h2 {
-  color: #2c3e50;
-  margin-bottom: 20px;
+  color: #519755; /* Verde Bosque */
+  margin-bottom: px;
+  font-size: 2rem;
+  font-weight: 700;
 }
 
+.subtitle {
+  color: #616e62;
+  margin-bottom: 30px;
+  font-size: 0.9rem;
+}
+
+@keyframes gradienteVivoCarta {
+  0%   { background-position: 100% 50%; }
+  50%  { background-position: 0% 50%; }
+  100% { background-position: 100% 50%; }
+}
+
+/* ==========================================
+   📝 FORMULARIOS E INPUTS
+   ========================================== */
 form {
   display: flex;
   flex-direction: column;
-  gap: 15px;
+  gap: 20px;
 }
 
 .form-group {
@@ -33,100 +71,137 @@ form {
 
 .form-group label {
   display: block;
-  margin-bottom: 5px;
-  color: #7f8c8d;
+  margin-bottom: 8px;
+  color: #519755; /* Verde Bosque Intacto */
   font-size: 0.9rem;
+  font-weight: 600;
 }
 
 input {
   width: 100%;
-  padding: 12px;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  box-sizing: border-box; /* Muy importante para que el padding no ensanche el input */
+  padding: 12px 16px;
+  background-color: #f9fbf9;
+  border: 1px solid #d4ebd6;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
 input:focus {
   outline: none;
-  border-color: #3498db;
+  border-color: #BE91BE;
+  box-shadow: 0 0 0 4px rgba(190, 145, 190, 0.15);
 }
 
 .btn-primary {
-  background-color: #3498db;
-  color: white;
+  width: 100%;
+  padding: 14px;
+  background-color: #5a8f62; /* 🎨 Tono Mate */
+  color: #ffffff;
   border: none;
-  padding: 12px;
-  border-radius: 5px;
-  font-weight: bold;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.3s;
+  transition: all 0.2s ease;
   margin-top: 10px;
 }
 
 .btn-primary:hover {
-  background-color: #2980b9;
+  background-color: #497550;
+  transform: translateY(-1px);
 }
 
-p {
-  margin-top: 20px;
-  color: #7f8c8d;
-  font-size: 0.9rem;
+.footer-text {
+  margin-top: 25px;
+  color: #616e62;
+  font-size: 0.95rem;
 }
 
+/* 🌸 ENLACE ROSA INTACTO */
 a {
-  color: #3498db;
+  color: #BE91BE;
   text-decoration: none;
-  font-weight: bold;
+  font-weight: 700;
 }
 
 a:hover {
   text-decoration: underline;
 }
 
-/* --- ESTILOS PARA LOS MODALES --- */
+/* ==========================================
+   🔗 ENLACES Y TEXTOS DEL PIE DE TARJETA
+   ========================================== */
+p {
+  margin-top: 25px;
+  color: #616e62; /* Gris verdoso armonizado */
+  font-size: 0.95rem;
+}
+
+a {
+  color: #BE91BE; /* Malva/Rosa suave idéntico al login */
+  text-decoration: none;
+  font-weight: 700;
+  transition: color 0.2s;
+}
+
+a:hover {
+  color: #a372a3;
+  text-decoration: underline;
+}
+
+/* ==========================================
+   🚨 ESTILOS PARA LOS MODALES (ÉXITO Y ERROR)
+   ========================================== */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100vw;
   height: 100vh;
-  background: rgba(0, 0, 0, 0.6); /* Fondo oscuro transparente */
+  background: rgba(26, 46, 28, 0.5); /* Fondo oscuro con sutil tinte Verde Bosque */
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; /* Asegura que flote por encima de todo */
+  z-index: 100;
 }
 
 .modal-box {
   background: #ffffff;
-  padding: 24px;
+  padding: 30px;
   border-radius: 12px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-  text-align: center;
   max-width: 400px;
   width: 85%;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+  border: 2px solid #d4ebd6; /* Borde menta suave por defecto */
   animation: aparecer 0.2s ease-out;
 }
 
 .modal-box h3 {
+  color: #519755; /* Verde Bosque para títulos de éxito */
   margin-top: 0;
   font-size: 1.4rem;
-  color: #1a1a1a;
+  font-weight: 700;
 }
 
-/* Variante si el modal es de error */
+/* Variante si el modal es de error (Aplica tu Rosa Palo en vez de rojo chillón) */
+.modal-box.error {
+  border-color: #DBAAA7;
+}
+
 .modal-box.error h3 {
-  color: #dc3545; /* Rojo de alerta */
+  color: #c57672; /* Tono rosa/rojizo elegante y mate para el error */
 }
 
 .modal-box p {
-  color: #555555;
+  color: #616e62;
   margin: 12px 0 24px 0;
   font-size: 1rem;
   line-height: 1.5;
 }
 
-/* Botones genéricos de los modales */
+/* Botones internos de los modales */
 .modal-box button {
   padding: 10px 24px;
   border: none;
@@ -134,27 +209,38 @@ a:hover {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.2s ease;
 }
 
-.btn-primary {
-  background-color: #0056b3;
+/* Botón aceptar (Éxito) -> Verde Mate */
+.modal-box .btn-primary {
+  background-color: #5a8f62;
   color: white;
 }
 
-.btn-danger {
-  background-color: #dc3545;
+.modal-box .btn-primary:hover {
+  background-color: #497550;
+}
+
+/* Botón reintentar (Error) -> Rosa Palo */
+.modal-box .btn-danger {
+  background-color: #DBAAA7;
   color: white;
 }
 
-/* Animación suave al salir */
+.modal-box .btn-danger:hover {
+  background-color: #c99390;
+}
+
+/* Animación de emergencia del modal (Mantenida y optimizada) */
 @keyframes aparecer {
   from {
-    transform: scale(0.9);
+    transform: scale(0.95);
     opacity: 0;
   }
   to {
     transform: scale(1);
     opacity: 1;
   }
-}
+} 
+

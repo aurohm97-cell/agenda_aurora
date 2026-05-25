@@ -1,23 +1,23 @@
-<div class="login-container">
+<div class="register-container">
   <div class="login-card">
     <h2>Crear Cuenta</h2>
-    <p style="margin-bottom: 20px;">Únete a la Agenda Aurora</p>
+    <p class="subtitle">Únete a la Agenda Aurora</p>
 
     <form [formGroup]="registerForm" (ngSubmit)="onRegister()">
       
       <div class="form-group">
-        <label>Nombre completo:</label>
-        <input type="text" formControlName="nombre" placeholder="Tu nombre...">
+        <label for="nombre">Nombre completo:</label>
+        <input type="text" id="nombre" formControlName="nombre" placeholder="Tu nombre..." required>
       </div>
 
       <div class="form-group">
-        <label>Email:</label>
-        <input type="email" formControlName="email" placeholder="ejemplo@correo.com">
+        <label for="email">Email:</label>
+        <input type="email" id="email" formControlName="email" placeholder="ejemplo@correo.com" required>
       </div>
 
       <div class="form-group">
-        <label>Contraseña:</label>
-        <input type="password" formControlName="password" placeholder="Mínimo 6 caracteres">
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" formControlName="password" placeholder="Mínimo 6 caracteres" required>
       </div>
 
       <button type="submit" class="btn-primary" [disabled]="registerForm.invalid">
@@ -26,11 +26,11 @@
 
     </form>
 
-    <p>¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
+    <p class="footer-text">¿Ya tienes cuenta? <a routerLink="/login">Inicia sesión aquí</a></p>
   </div>
 </div>
-<!-- Modal de éxito -->
- @if (mostrandoModalExito) {
+
+@if (mostrandoModalExito) {
   <div class="modal-overlay">
     <div class="modal-box">
       <h3>¡Registro Completado!</h3>
@@ -42,7 +42,7 @@
 
 @if (mostrandoModalError) {
   <div class="modal-overlay">
-    <div class="modal-box error">
+    <div class="modal-box">
       <h3>Error al registrarse</h3>
       <p>Este correo electrónico ya está registrado en el sistema.</p>
       <button (click)="cerrarModalError()" class="btn-danger">Intentarlo de nuevo</button>
