@@ -232,59 +232,97 @@
             <div *ngIf="tareasHechas.length === 0" class="empty-state">🎯 Aún sin completar</div>
           </div>
         </div>
+        <aside class="stats-panel">
+          <h4 class="stats-title">Resumen</h4>
+
+          <!-- DONUT SVG -->
+          <svg viewBox="0 0 100 100" width="100%" style="margin: 8px 0">
+            <circle cx="50" cy="50" r="35" fill="none" stroke="#519755" stroke-width="14" />
+
+            <!-- Segmento: Completadas (lila) -->
+            <circle
+              cx="50"
+              cy="50"
+              r="35"
+              fill="none"
+              stroke="#9b7fb6"
+              stroke-width="14"
+              [attr.stroke-dasharray]="
+                tareasHechas.length > 0
+                  ? (tareasHechas.length / misTareas.length) * 219.9 + ' 219.9'
+                  : '0 219.9'
+              "
+              stroke-dashoffset="54.97"
+              stroke-linecap="round"
+              transform="rotate(-90 50 50)"
+            />
+
+            <!-- Segmento: En proceso (ámbar) -->
+            <circle
+              cx="50"
+              cy="50"
+              r="35"
+              fill="none"
+              stroke="#c8973a"
+              stroke-width="14"
+              [attr.stroke-dasharray]="
+                tareasEnProceso.length > 0
+                  ? (tareasEnProceso.length / misTareas.length) * 219.9 + ' 219.9'
+                  : '0 219.9'
+              "
+              [attr.stroke-dashoffset]="
+                tareasHechas.length > 0
+                  ? -((tareasHechas.length / misTareas.length) * 219.9) + 54.97
+                  : 54.97
+              "
+              stroke-linecap="round"
+              transform="rotate(-90 50 50)"
+            />
+
+            <!-- Número central -->
+            <text
+              x="50"
+              y="50"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              font-size="18"
+              font-weight="700"
+              fill="#1a2e1c"
+            >
+              {{ misTareas.length }}
+            </text>
+            <text x="50" y="63" text-anchor="middle" font-size="7" fill="#616e62">tareas</text>
+          </svg>
+
+          <!-- LEYENDA -->
+          <div class="stat-block">
+            <span class="stat-dot" style="background: #519755"></span>
+            <span class="stat-label">Por hacer</span>
+            <span class="stat-number col-pendiente">{{ tareasPendientes.length }}</span>
+          </div>
+
+          <div class="stat-block">
+            <span class="stat-dot" style="background: #c8973a"></span>
+            <span class="stat-label">En proceso</span>
+            <span class="stat-number col-proceso">{{ tareasEnProceso.length }}</span>
+          </div>
+
+          <div class="stat-block">
+            <span class="stat-dot" style="background: #9b7fb6"></span>
+            <span class="stat-label">Completadas</span>
+            <span class="stat-number col-hecho">{{ tareasHechas.length }}</span>
+          </div>
+
+          <div class="stat-divider"></div>
+
+          <div class="stat-block">
+            <span class="stat-label">Urgentes</span>
+            <span class="stat-number urgente-num">{{ tareasUrgentes }}</span>
+          </div>
+        </aside>
       </div>
     </main>
   </div>
-
-  <aside class="stats-panel">
-    <h4 class="stats-title">Resumen</h4>
-
-    <div class="stat-block">
-      <span class="stat-label">Total de tareas</span>
-      <span class="stat-number">{{ misTareas.length }}</span>
-    </div>
-
-    <div class="stat-block">
-      <span class="stat-label">Por hacer</span>
-      <span class="stat-number col-pendiente">{{ tareasPendientes.length }}</span>
-    </div>
-
-    <div class="stat-block">
-      <span class="stat-label">En proceso</span>
-      <span class="stat-number col-proceso">{{ tareasEnProceso.length }}</span>
-    </div>
-
-    <div class="stat-block">
-      <span class="stat-label">Completadas</span>
-      <span class="stat-number col-hecho">{{ tareasHechas.length }}</span>
-    </div>
-
-    <div class="stat-divider"></div>
-
-    <div class="stat-block">
-      <span class="stat-label">Urgentes</span>
-      <span class="stat-number urgente-num">{{ tareasUrgentes }}</span>
-    </div>
-
-    <div class="progress-wrap">
-      <span class="stat-label">Progreso</span>
-      <div class="progress-bar">
-        <div
-          class="progress-fill"
-          [style.width.%]="
-            misTareas.length > 0 ? (tareasHechas.length / misTareas.length) * 100 : 0
-          "
-        ></div>
-      </div>
-      <span class="progress-pct">
-        {{
-          misTareas.length > 0
-            ? ((tareasHechas.length / misTareas.length) * 100 | number: '1.0-0')
-            : 0
-        }}%
-      </span>
-    </div>
-  </aside>
 
   <!-- MODALES -->
   <div *ngIf="tareaABorrar !== null" class="modal-overlay">

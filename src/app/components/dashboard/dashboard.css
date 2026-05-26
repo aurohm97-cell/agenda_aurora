@@ -460,7 +460,7 @@ header button:hover {
 
 .stats-panel {
   width: 200px;
-  min-width: 200px;
+  min-width: 220px;
   background: #ffffff;
   border-radius: 14px;
   border: 1px solid #d4ebd6;
@@ -534,4 +534,48 @@ header button:hover {
   color: #9b7fb6;
   font-weight: 700;
   text-align: right;
+}
+
+.stats-title {
+  color: #519755;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.stat-block {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.stat-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.stat-label {
+  font-size: 0.88rem;
+  color: #616e62;
+  flex: 1;
+}
+
+.stat-number {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1a2e1c;
+}
+
+.stat-number.col-pendiente { color: #519755; }
+.stat-number.col-proceso   { color: #c8973a; }
+.stat-number.col-hecho     { color: #9b7fb6; }
+.stat-number.urgente-num   { color: #DBAAA7; }
+
+.stat-divider {
+  height: 1px;
+  background: #d4ebd6;
 }
