@@ -1,219 +1,311 @@
 <div class="dashboard-container">
-  <header>
-    <div class="dashboard-header">
-  <div class="user-welcome">
-    <h2>Mi Agenda Aurora</h2>
-    <span class="welcome-text">👋 ¡Hola, <strong>{{ usuarioNombre }}</strong>! <small class="role-badge">{{ usuarioRol }}</small></span>
-  </div>
-    <button class="btn-danger" (click)="logout()">Cerrar Sesión</button>
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <span class="topbar-logo">🌿 Agenda Aurora</span>
+    <span class="topbar-usuario">
+      👋 ¡Hola, <strong>{{ usuarioNombre }}</strong
+      >!
+      <small class="role-badge">{{ usuarioRol }}</small>
+    </span>
+  </header>
 
-  <div class="board">
-    <div class="column">
-      <h3>Por hacer</h3>
-      <div class="task-list">
-        @for (tarea of misTareas; track tarea.id) {
-          @if (tarea.estado === 'pendiente') { <!-- no es lo mismo por hacer que pendiente, pendiente es el estado de la tarea, por hacer es el nombre de la columna -->
-          @if (tareaEnEdicion !== tarea.id) {
-            <div class="task-card" [class.urgente]="tarea.prioridad === 'urgente'" [class.normal]="tarea.prioridad === 'normal'">
-              <div class="task-content">
-                <strong>{{ tarea.titulo }}</strong>
-                @if (tarea.descripcion) {
-                  <p class="description">{{ tarea.descripcion }}</p>
-                }
-              </div>
-              <div class="actions">
-                <button (click)="editar(tarea)">✏️</button>
-                <button (click)="moverTarea(tarea.id, 'proceso')">➡️</button>
-                <button (click)="eliminar(tarea.id)">🗑️</button>
-              </div>
+  <!-- CUERPO: sidebar + tablero -->
+  <div class="app-body">
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+      <nav class="sidebar-nav">
+        <a class="sidebar-item active" title="Tablero">📋</a>
+        <a class="sidebar-item" title="Próximamente">📅</a>
+        <a class="sidebar-item" title="Papelera">🗑️</a>
+      </nav>
+      <button class="sidebar-logout" (click)="logout()" title="Cerrar sesión">🚪</button>
+    </aside>
+
+    <!-- TABLERO KANBAN -->
+    <main class="board-area">
+      <div class="board">
+        <!-- COLUMNA: POR HACER -->
+        <div class="column col-pendiente">
+          <h3>Por hacer</h3>
+          <div class="task-list">
+            <ng-container *ngFor="let tarea of misTareas">
+              <ng-container *ngIf="tarea.estado === 'pendiente'">
+                <div *ngIf="tareaEnEdicion !== tarea.id; else editPorHacer">
+                  <div
+                    class="task-card"
+                    [class.urgente]="tarea.prioridad === 'urgente'"
+                    [class.normal]="tarea.prioridad === 'normal'"
+                  >
+                    <div class="task-content">
+                      <strong>{{ tarea.titulo }}</strong>
+                      <p class="description" *ngIf="tarea.descripcion">{{ tarea.descripcion }}</p>
+                    </div>
+                    <div class="actions">
+                      <button (click)="editar(tarea)">✏️</button>
+                      <button (click)="moverTarea(tarea.id, 'proceso')">➡️</button>
+                      <button (click)="eliminar(tarea.id)">🗑️</button>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #editPorHacer>
+                  <div class="task-card">
+                    <div class="edit-mode">
+                      <input
+                        class="edit-title"
+                        [(ngModel)]="tituloTemporal"
+                        placeholder="Título de la tarea"
+                        (keyup.enter)="guardarEdicion(tarea.id)"
+                        autofocus
+                      />
+                      <textarea
+                        class="edit-desc"
+                        [(ngModel)]="descripcionTemporal"
+                        placeholder="Añade una descripción..."
+                      ></textarea>
+                      <label class="priority-label"
+                        >Prioridad:
+                        <select [(ngModel)]="prioridadTemporal">
+                          <option value="normal">Normal</option>
+                          <option value="urgente">Urgente</option>
+                        </select>
+                      </label>
+                      <div class="actions">
+                        <button (click)="guardarEdicion(tarea.id)">✅</button>
+                        <button (click)="cancelarEdicion()">❌</button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+            <div *ngIf="tareasPendientes.length === 0" class="empty-state">
+              🌿 Sin tareas pendientes
             </div>
-          } @else {
-            <div class="task-card">
+          </div>
+
+          <div *ngIf="mostrandoFormularioNueva; else addTaskButton">
+            <div class="task-card" style="margin: 0 16px 16px">
               <div class="edit-mode">
-                <input class="edit-title"
-                  [(ngModel)]="tituloTemporal" placeholder="Título de la tarea"
-                  (keyup.enter)="guardarEdicion(tarea.id)"
+                <input
+                  class="edit-title"
+                  [(ngModel)]="nuevoTitulo"
+                  placeholder="Título de la nueva tarea"
+                  (keyup.enter)="guardarNueva()"
                   autofocus
                 />
-
-                <textarea class="edit-desc" [(ngModel)]="descripcionTemporal" placeholder="Añade una descripción..."></textarea>
-
-                <label class="priority-label">
-                  Prioridad:
-                  <select [(ngModel)]="prioridadTemporal">
+                <textarea
+                  class="edit-desc"
+                  [(ngModel)]="nuevaDescripcion"
+                  placeholder="Añade una descripción..."
+                ></textarea>
+                <label class="priority-label"
+                  >Prioridad:
+                  <select [(ngModel)]="nuevaPrioridad">
                     <option value="normal">Normal</option>
                     <option value="urgente">Urgente</option>
                   </select>
                 </label>
-
                 <div class="actions">
-                  <button (click)="guardarEdicion(tarea.id)">✅</button>
-                  <button (click)="cancelarEdicion()">❌</button>
+                  <button (click)="guardarNueva()">✅ Crear</button>
+                  <button (click)="cancelarNueva()">❌</button>
                 </div>
               </div>
             </div>
-          }
-        }
-        }
-    </div>
+          </div>
+          <ng-template #addTaskButton>
+            <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button>
+          </ng-template>
+        </div>
 
-    @if (mostrandoFormularioNueva) {
-      <div class="task-card" style="margin-top: 10px;">
-        <div class="edit-mode">
-          <input 
-            class="edit-title" 
-            [(ngModel)]="nuevoTitulo" 
-            placeholder="Título de la nueva tarea" 
-            (keyup.enter)="guardarNueva()"
-            autofocus 
-          />
-          
-          <textarea 
-            class="edit-desc" 
-            [(ngModel)]="nuevaDescripcion" 
-            placeholder="Añade una descripción...">
-          </textarea>
+        <!-- COLUMNA: EN PROCESO -->
+        <div class="column col-proceso">
+          <h3>En proceso</h3>
+          <div class="task-list">
+            <ng-container *ngFor="let tarea of misTareas">
+              <ng-container *ngIf="tarea.estado === 'proceso'">
+                <div *ngIf="tareaEnEdicion !== tarea.id; else editEnProceso">
+                  <div
+                    class="task-card"
+                    [class.urgente]="tarea.prioridad === 'urgente'"
+                    [class.normal]="tarea.prioridad === 'normal'"
+                  >
+                    <div class="task-content">
+                      <strong>{{ tarea.titulo }}</strong>
+                      <p class="description" *ngIf="tarea.descripcion">{{ tarea.descripcion }}</p>
+                    </div>
+                    <div class="actions">
+                      <button (click)="editar(tarea)">✏️</button>
+                      <button (click)="moverTarea(tarea.id, 'pendiente')">⬅️</button>
+                      <button (click)="moverTarea(tarea.id, 'hecho')">➡️</button>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #editEnProceso>
+                  <div class="task-card">
+                    <div class="edit-mode">
+                      <input
+                        class="edit-title"
+                        [(ngModel)]="tituloTemporal"
+                        placeholder="Título de la tarea"
+                        (keyup.enter)="guardarEdicion(tarea.id)"
+                        autofocus
+                      />
+                      <textarea
+                        class="edit-desc"
+                        [(ngModel)]="descripcionTemporal"
+                        placeholder="Añade una descripción..."
+                      ></textarea>
+                      <label class="priority-label"
+                        >Prioridad:
+                        <select [(ngModel)]="prioridadTemporal">
+                          <option value="normal">Normal</option>
+                          <option value="urgente">Urgente</option>
+                        </select>
+                      </label>
+                      <div class="actions">
+                        <button (click)="guardarEdicion(tarea.id)">✅</button>
+                        <button (click)="cancelarEdicion()">❌</button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+            <div *ngIf="tareasEnProceso.length === 0" class="empty-state">✨ Nada en proceso</div>
+          </div>
+        </div>
 
-          <label class="priority-label">
-            Prioridad:
-            <select [(ngModel)]="nuevaPrioridad">
-              <option value="normal">Normal</option>
-              <option value="urgente">Urgente</option>
-            </select>
-          </label>
-
-          <div class="actions">
-            <button (click)="guardarNueva()">✅ Crear</button>
-            <button (click)="cancelarNueva()">❌</button>
+        <!-- COLUMNA: HECHO -->
+        <div class="column col-hecho">
+          <h3>Hecho</h3>
+          <div class="task-list">
+            <ng-container *ngFor="let tarea of misTareas">
+              <ng-container *ngIf="tarea.estado === 'hecho'">
+                <div *ngIf="tareaEnEdicion !== tarea.id; else editHecho">
+                  <div
+                    class="task-card"
+                    [class.urgente]="tarea.prioridad === 'urgente'"
+                    [class.normal]="tarea.prioridad === 'normal'"
+                  >
+                    <div class="task-content">
+                      <strong>{{ tarea.titulo }}</strong>
+                      <p class="description" *ngIf="tarea.descripcion">{{ tarea.descripcion }}</p>
+                    </div>
+                    <div class="actions">
+                      <button (click)="editar(tarea)">✏️</button>
+                      <button (click)="moverTarea(tarea.id, 'proceso')">⬅️</button>
+                      <button (click)="eliminar(tarea.id)">🗑️</button>
+                    </div>
+                  </div>
+                </div>
+                <ng-template #editHecho>
+                  <div class="task-card">
+                    <div class="edit-mode">
+                      <input
+                        class="edit-title"
+                        [(ngModel)]="tituloTemporal"
+                        placeholder="Título de la tarea"
+                        (keyup.enter)="guardarEdicion(tarea.id)"
+                        autofocus
+                      />
+                      <textarea
+                        class="edit-desc"
+                        [(ngModel)]="descripcionTemporal"
+                        placeholder="Añade una descripción..."
+                      ></textarea>
+                      <label class="priority-label"
+                        >Prioridad:
+                        <select [(ngModel)]="prioridadTemporal">
+                          <option value="normal">Normal</option>
+                          <option value="urgente">Urgente</option>
+                        </select>
+                      </label>
+                      <div class="actions">
+                        <button (click)="guardarEdicion(tarea.id)">✅</button>
+                        <button (click)="cancelarEdicion()">❌</button>
+                      </div>
+                    </div>
+                  </div>
+                </ng-template>
+              </ng-container>
+            </ng-container>
+            <div *ngIf="tareasHechas.length === 0" class="empty-state">🎯 Aún sin completar</div>
           </div>
         </div>
       </div>
-    } @else {
-      <button class="add-btn" (click)="agregarNueva()">+ Añadir tarea</button> 
-    }
+    </main>
   </div>
 
-    <div class="column">
-      <h3>En proceso</h3>
-      <div class="task-list">
-        @for (tarea of misTareas; track tarea.id) {
-          @if (tarea.estado === 'proceso') {
-            @if (tareaEnEdicion !== tarea.id) { 
-            <div class="task-card" [class.urgente]="tarea.prioridad === 'urgente'" [class.normal]="tarea.prioridad === 'normal'">
-              <div class="task-content">
-                <strong>{{ tarea.titulo }}</strong>
-                @if (tarea.descripcion) {
-                  <p class="description">{{ tarea.descripcion }}</p>
-                }
-              </div>
-              <div class="actions">
-                <button (click)="editar(tarea)">✏️</button>
-                <button (click)="moverTarea(tarea.id, 'pendiente')">⬅️</button>
-                <button (click)="moverTarea(tarea.id, 'hecho')">➡️</button>
-              </div>
-            </div>
-          } @else {
-            <div class="task-card">
-              <div class="edit-mode">
-                <input class="edit-title"
-                  [(ngModel)]="tituloTemporal" placeholder="Título de la tarea"
-                  (keyup.enter)="guardarEdicion(tarea.id)"
-                  autofocus
-                />
+  <aside class="stats-panel">
+    <h4 class="stats-title">Resumen</h4>
 
-                <textarea class="edit-desc" [(ngModel)]="descripcionTemporal" placeholder="Añade una descripción..."></textarea>
-
-                <label class="priority-label">
-                  Prioridad:
-                  <select [(ngModel)]="prioridadTemporal">
-                    <option value="normal">Normal</option>
-                    <option value="urgente">Urgente</option>
-                  </select>
-                </label>
-
-                <div class="actions">
-                  <button (click)="guardarEdicion(tarea.id)">✅</button>
-                  <button (click)="cancelarEdicion()">❌</button>
-                </div>
-              </div>
-            </div>
-          }
-        }
-      }
-      </div>
+    <div class="stat-block">
+      <span class="stat-label">Total de tareas</span>
+      <span class="stat-number">{{ misTareas.length }}</span>
     </div>
 
-    <div class="column">
-      <h3>Hecho</h3>
-      <div class="task-list">
-        @for (tarea of misTareas; track tarea.id) {
-          @if (tarea.estado === 'hecho') {
-          @if (tareaEnEdicion !== tarea.id) { 
-            <div class="task-card" [class.urgente]="tarea.prioridad === 'urgente'" [class.normal]="tarea.prioridad === 'normal'">
-              <div class="task-content">
-                <strong>{{ tarea.titulo }}</strong>
-                @if (tarea.descripcion) {
-                  <p class="description">{{ tarea.descripcion }}</p>
-                }
-              </div>
-              <div class="actions">
-                <button (click)="editar(tarea)">✏️</button>
-                <button (click)="moverTarea(tarea.id, 'proceso')">⬅️</button>
-                <button (click)="eliminar(tarea.id)">🗑️</button>
-              </div>
-            </div>
+    <div class="stat-block">
+      <span class="stat-label">Por hacer</span>
+      <span class="stat-number col-pendiente">{{ tareasPendientes.length }}</span>
+    </div>
 
-          } @else { 
-            <div class="task-card">
-              <div class="edit-mode">
-                <input class="edit-title"
-                  [(ngModel)]="tituloTemporal" placeholder="Título de la tarea"
-                  (keyup.enter)="guardarEdicion(tarea.id)"
-                  autofocus
-                />
+    <div class="stat-block">
+      <span class="stat-label">En proceso</span>
+      <span class="stat-number col-proceso">{{ tareasEnProceso.length }}</span>
+    </div>
 
-                <textarea class="edit-desc" [(ngModel)]="descripcionTemporal" placeholder="Añade una descripción..."></textarea>
+    <div class="stat-block">
+      <span class="stat-label">Completadas</span>
+      <span class="stat-number col-hecho">{{ tareasHechas.length }}</span>
+    </div>
 
-                <label class="priority-label">
-                  Prioridad:
-                  <select [(ngModel)]="prioridadTemporal">
-                    <option value="normal">Normal</option>
-                    <option value="urgente">Urgente</option>
-                  </select>
-                </label>
+    <div class="stat-divider"></div>
 
-                <div class="actions">
-                  <button (click)="guardarEdicion(tarea.id)">✅</button>
-                  <button (click)="cancelarEdicion()">❌</button>
-                </div>
-              </div>
-            </div>
-          }
-        }
-      }
-    </div> <!--modales-->
-</div> @if (tareaABorrar !== null) { <!-- Si hay una tarea marcada para borrar, mostramos el modal de confirmación. Tiene que ir fuera de todo el bloque de co -->
-  <div class="modal-overlay">
+    <div class="stat-block">
+      <span class="stat-label">Urgentes</span>
+      <span class="stat-number urgente-num">{{ tareasUrgentes }}</span>
+    </div>
+
+    <div class="progress-wrap">
+      <span class="stat-label">Progreso</span>
+      <div class="progress-bar">
+        <div
+          class="progress-fill"
+          [style.width.%]="
+            misTareas.length > 0 ? (tareasHechas.length / misTareas.length) * 100 : 0
+          "
+        ></div>
+      </div>
+      <span class="progress-pct">
+        {{
+          misTareas.length > 0
+            ? ((tareasHechas.length / misTareas.length) * 100 | number: '1.0-0')
+            : 0
+        }}%
+      </span>
+    </div>
+  </aside>
+
+  <!-- MODALES -->
+  <div *ngIf="tareaABorrar !== null" class="modal-overlay">
     <div class="modal-card">
       <h3>¿Eliminar tarea?</h3>
       <p>Esta acción no se puede deshacer.</p>
-      
       <div class="modal-actions">
         <button class="btn-cancel" (click)="cancelarBorrado()">Cancelar</button>
         <button class="btn-danger" (click)="confirmarBorrado()">Sí, eliminar</button>
       </div>
     </div>
   </div>
-} @if (mostrandoModalLogout) { <!-- Modal de confirmación de cierre de sesión -->
-  <div class="modal-overlay">
+
+  <div *ngIf="mostrandoModalLogout" class="modal-overlay">
     <div class="modal-card">
       <h3>¿Cerrar sesión?</h3>
       <p>¿Estás seguro de que quieres cerrar sesión?</p>
-      
       <div class="modal-actions">
         <button class="btn-cancel" (click)="cancelarLogout()">Cancelar</button>
         <button class="btn-danger" (click)="confirmarLogout()">Sí, cerrar sesión</button>
       </div>
     </div>
   </div>
-}
+</div>

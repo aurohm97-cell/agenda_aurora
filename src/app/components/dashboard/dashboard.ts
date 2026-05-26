@@ -32,10 +32,20 @@ export class DashboardComponent implements OnInit, OnDestroy {
   private targetY = 50;
   private animFrameId = 0;
 
+  get tareasPendientes()  { return this.misTareas.filter(t => t.estado === 'pendiente'); }
+  get tareasEnProceso()   { return this.misTareas.filter(t => t.estado === 'proceso'); }
+  get tareasHechas()      { return this.misTareas.filter(t => t.estado === 'hecho'); }
+get tareasUrgentes() { 
+  return this.misTareas.filter(t => t.prioridad === 'urgente').length; 
+}
+
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
-    this.targetX = (event.clientX / window.innerWidth) * 100;
-    this.targetY = (event.clientY / window.innerHeight) * 100;
+    const container = document.querySelector('.dashboard-container') as HTMLElement | null;
+    if (container) {
+      this.targetX = (event.clientX / window.innerWidth) * 100;
+      this.targetY = (event.clientY / window.innerHeight) * 100;
+    }
   }
 
   constructor(
@@ -56,16 +66,16 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   private animarGradiente(): void {
-    this.mouseX += (this.targetX - this.mouseX) * 0.05;
-    this.mouseY += (this.targetY - this.mouseY) * 0.05;
+    this.mouseX += (this.targetX - this.mouseX) * 1.0;
+    this.mouseY += (this.targetY - this.mouseY) * 1.0;
 
     const container = document.querySelector('.dashboard-container') as HTMLElement | null;
     if (container) {
       container.style.backgroundImage = `
-        radial-gradient(circle at ${this.mouseX}% ${this.mouseY}%, 
-          rgba(190, 145, 190, 0.25) 0%, 
-          rgba(212, 235, 214, 0.3) 30%, 
-          rgba(250, 250, 248, 0) 65%),
+        radial-gradient(circle at ${this.mouseX}% ${this.mouseY}%,
+          rgba(190, 145, 190, 0.65) 0.5%,
+          rgba(212, 235, 214, 0.3) 5%,
+          rgba(250, 250, 248, 0) 5%),
         linear-gradient(135deg, #fafaf8 0%, #d4ebd6 100%)
       `;
     }

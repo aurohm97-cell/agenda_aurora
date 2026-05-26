@@ -24,17 +24,12 @@ h3 {
 .dashboard-container {
   display: flex;
   flex-direction: column;
-  gap: 30px;
   padding: 40px; /* Espacio de cortesía para que el doble borde respire */
    background: linear-gradient(135deg, #fafaf8 0%, #d4ebd6 100%);
   /* El JS sobreescribirá backgroundImage dinámicamente */
-  transition: background-image 0.1s ease; /* Fondo off-white limpísimo */
   min-height: 100vh;
   width: 100%;
-  
-  /* Concepto de doble borde adaptado con el color insignia */
-  border: 4px double #519755;
-  border-radius: 20px;
+
 }
 
 /* ==========================================
@@ -303,4 +298,240 @@ header button:hover {
 }
 .btn-cancel:hover {
   background: #ebdcd9;
+}
+
+:host {
+  display: block;
+  height: 100%;
+}
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 56px;
+  background: #ffffff;
+  border-bottom: 1px solid #d4ebd6;
+  box-shadow: 0 2px 8px rgba(81, 151, 85, 0.06);
+}
+
+.topbar-logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #519755;
+  letter-spacing: -0.3px;
+}
+
+.topbar-usuario {
+  font-size: 0.9rem;
+  color: #616e62;
+}
+
+.app-body {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
+}
+
+/* SIDEBAR */
+.sidebar {
+  width: 64px;
+  background: #ffffff;
+  border-right: 1px solid #d4ebd6;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+}
+
+.sidebar-item {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+  text-decoration: none;
+}
+
+.sidebar-item:hover {
+  background: #eff5ef;
+}
+
+.sidebar-item.active {
+  background: #d4ebd6;
+}
+
+.sidebar-logout {
+  width: 42px;
+  height: 42px;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.sidebar-logout:hover {
+  background: #fdf0ef;
+}
+
+.board-area {
+  flex: 1;
+  overflow-x: auto;
+  padding: 28px;
+}
+
+.board {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  min-width: max-content;
+}
+
+/* Acento por columna — solo el header cambia de color */
+.column.col-pendiente h3 { background-color: #519755; } /* verde — ya lo tienes */
+.column.col-proceso h3   { background-color: #c8973a; } /* ámbar cálido */
+.column.col-hecho h3     { background-color: #9b7fb6; } /* lila, tu paleta */
+
+/* El fondo de la columna también recibe un toque sutil */
+.column.col-proceso { background-color: #fdf6ee; border-color: #f0dfc0; }
+.column.col-hecho   { background-color: #f5f0f9; border-color: #e0d0e8; }
+
+/* Franja de prioridad izquierda */
+.task-card.urgente {
+  border-left: 4px solid #DBAAA7;
+}
+
+.task-card.normal {
+  border-left: 4px solid #d4ebd6;
+}
+
+.empty-state {
+  text-align: center;
+  color: #a0aba1;
+  font-size: 0.88rem;
+  padding: 24px 12px;
+  font-style: italic;
+}
+
+@keyframes entradaTarjeta {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.task-card {
+  animation: entradaTarjeta 0.25s ease-out both;
+}
+
+/* Escalonado: cada tarjeta aparece ligeramente después que la anterior */
+.task-card:nth-child(1) { animation-delay: 0.15s; }
+.task-card:nth-child(2) { animation-delay: 0.20s; }
+.task-card:nth-child(3) { animation-delay: 0.25s; }
+.task-card:nth-child(4) { animation-delay: 0.30s; }
+.task-card:nth-child(5) { animation-delay: 0.35s; }
+.task-card:nth-child(6) { animation-delay: 0.40s; }
+.task-card:nth-child(7) { animation-delay: 0.45s; }
+.task-card:nth-child(8) { animation-delay: 0.50s; }
+
+.stats-panel {
+  width: 200px;
+  min-width: 200px;
+  background: #ffffff;
+  border-radius: 14px;
+  border: 1px solid #d4ebd6;
+  padding: 20px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.02);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  align-self: flex-start; /* no se estira */
+}
+
+.stats-title {
+  color: #519755;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin: 0;
+}
+
+.stat-block {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.stat-label {
+  font-size: 0.88rem;
+  color: #616e62;
+}
+
+.stat-number {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1a2e1c;
+}
+
+.stat-number.col-pendiente { color: #519755; }
+.stat-number.col-proceso   { color: #c8973a; }
+.stat-number.col-hecho     { color: #9b7fb6; }
+.stat-number.urgente-num   { color: #DBAAA7; }
+
+.stat-divider {
+  height: 1px;
+  background: #d4ebd6;
+}
+
+.progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.progress-bar {
+  width: 100%;
+  height: 8px;
+  background: #eff5ef;
+  border-radius: 99px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: #9b7fb6;
+  border-radius: 99px;
+  transition: width 0.4s ease;
+}
+
+.progress-pct {
+  font-size: 0.8rem;
+  color: #9b7fb6;
+  font-weight: 700;
+  text-align: right;
 }
