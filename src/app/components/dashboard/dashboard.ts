@@ -1,17 +1,18 @@
-import { Component, OnInit, OnDestroy, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, AfterViewInit, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TaskService } from '../../services/task';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { CdkDragDrop, transferArrayItem, DragDropModule } from '@angular/cdk/drag-drop';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule, DragDropModule],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css'],
 })
-export class DashboardComponent implements OnInit, OnDestroy {
+export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   misTareas: any[] = [];
   tareaEnEdicion: number | null = null;
   tituloTemporal: string = '';
@@ -26,18 +27,31 @@ export class DashboardComponent implements OnInit, OnDestroy {
   usuarioNombre = '';
   usuarioRol = ''; // Opcional, por si quieres mostrar su rol
 
+  onDrop(event: CdkDragDrop<any[]>, nuevoEstado: string) {
+    if (event.previousContainer !== event.container) {
+      const tarea = event.previousContainer.data[event.previousIndex];
+      this.misTareas = this.taskService.actualizarEstado(tarea.id, nuevoEstado);
+    }
+  }
+
   private mouseX = 50;
   private mouseY = 50;
   private targetX = 50;
   private targetY = 50;
   private animFrameId = 0;
 
-  get tareasPendientes()  { return this.misTareas.filter(t => t.estado === 'pendiente'); }
-  get tareasEnProceso()   { return this.misTareas.filter(t => t.estado === 'proceso'); }
-  get tareasHechas()      { return this.misTareas.filter(t => t.estado === 'hecho'); }
-get tareasUrgentes() { 
-  return this.misTareas.filter(t => t.prioridad === 'urgente').length; 
-}
+  get tareasPendientes() {
+    return this.misTareas.filter((t) => t.estado === 'pendiente');
+  }
+  get tareasEnProceso() {
+    return this.misTareas.filter((t) => t.estado === 'proceso');
+  }
+  get tareasHechas() {
+    return this.misTareas.filter((t) => t.estado === 'hecho');
+  }
+  get tareasUrgentes() {
+    return this.misTareas.filter((t) => t.prioridad === 'urgente').length;
+  }
 
   @HostListener('mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
@@ -61,7 +75,8 @@ get tareasUrgentes() {
     // Usamos un valor por defecto por si acaso aún no lo has guardado en el Login
     this.usuarioNombre = localStorage.getItem('usuarioNombre') || 'Aurora';
     this.usuarioRol = localStorage.getItem('usuarioRol') || 'Administrador';
-
+  }
+  ngAfterViewInit() {
     this.animarGradiente();
   }
 

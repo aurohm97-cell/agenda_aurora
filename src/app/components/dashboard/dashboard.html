@@ -27,10 +27,15 @@
         <!-- COLUMNA: POR HACER -->
         <div class="column col-pendiente">
           <h3>Por hacer</h3>
-          <div class="task-list">
+          <div class="task-list"
+            cdkDropList
+            id="lista-pendiente"
+            [cdkDropListConnectedTo]="['lista-proceso', 'lista-hecho']"
+            [cdkDropListData]="tareasPendientes"
+            (cdkDropListDropped)="onDrop($event, 'pendiente')">
             <ng-container *ngFor="let tarea of misTareas">
               <ng-container *ngIf="tarea.estado === 'pendiente'">
-                <div *ngIf="tareaEnEdicion !== tarea.id; else editPorHacer">
+                <div *ngIf="tareaEnEdicion !== tarea.id; else editPorHacer" cdkDrag [cdkDragData]="tarea">
                   <div
                     class="task-card"
                     [class.urgente]="tarea.prioridad === 'urgente'"
@@ -41,9 +46,23 @@
                       <p class="description" *ngIf="tarea.descripcion">{{ tarea.descripcion }}</p>
                     </div>
                     <div class="actions">
-                      <button (click)="editar(tarea)">✏️</button>
-                      <button (click)="moverTarea(tarea.id, 'proceso')">➡️</button>
-                      <button (click)="eliminar(tarea.id)">🗑️</button>
+                      <button class="btn-action btn-edit" (click)="editar(tarea)" title="Editar">
+                        <i class="fas fa-pencil"></i>
+                      </button>
+                      <button
+                        class="btn-action btn-move"
+                        (click)="moverTarea(tarea.id, 'proceso')"
+                        title="Mover a En proceso"
+                      >
+                        <i class="fas fa-arrow-right"></i>
+                      </button>
+                      <button
+                        class="btn-action btn-delete"
+                        (click)="eliminar(tarea.id)"
+                        title="Eliminar"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -64,14 +83,18 @@
                       ></textarea>
                       <label class="priority-label"
                         >Prioridad:
-                        <select [(ngModel)]="prioridadTemporal">
+                        <select class="edit-select" [(ngModel)]="prioridadTemporal">
                           <option value="normal">Normal</option>
                           <option value="urgente">Urgente</option>
                         </select>
                       </label>
                       <div class="actions">
-                        <button (click)="guardarEdicion(tarea.id)">✅</button>
-                        <button (click)="cancelarEdicion()">❌</button>
+                        <button class="btn-save" (click)="guardarEdicion(tarea.id)">
+                          <i class="fas fa-check"></i> Guardar
+                        </button>
+                        <button class="btn-cancel-edit" (click)="cancelarEdicion()">
+                          <i class="fas fa-times"></i> Cancelar
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -100,14 +123,18 @@
                 ></textarea>
                 <label class="priority-label"
                   >Prioridad:
-                  <select [(ngModel)]="nuevaPrioridad">
+                  <select class="edit-select" [(ngModel)]="nuevaPrioridad">
                     <option value="normal">Normal</option>
                     <option value="urgente">Urgente</option>
                   </select>
                 </label>
                 <div class="actions">
-                  <button (click)="guardarNueva()">✅ Crear</button>
-                  <button (click)="cancelarNueva()">❌</button>
+                  <button class="btn-save" (click)="guardarNueva()">
+                    <i class="fas fa-check"></i> Guardar
+                  </button>
+                  <button class="btn-cancel-edit" (click)="cancelarNueva()">
+                    <i class="fas fa-times"></i> Cancelar
+                  </button>
                 </div>
               </div>
             </div>
@@ -120,10 +147,17 @@
         <!-- COLUMNA: EN PROCESO -->
         <div class="column col-proceso">
           <h3>En proceso</h3>
-          <div class="task-list">
+          <div class="task-list"
+          cdkDropList            id="lista-proceso"
+           [cdkDropListConnectedTo]="['lista-pendiente', 'lista-hecho']"
+  [cdkDropListData]="tareasEnProceso"
+  (cdkDropListDropped)="onDrop($event, 'proceso')">
+      
             <ng-container *ngFor="let tarea of misTareas">
               <ng-container *ngIf="tarea.estado === 'proceso'">
-                <div *ngIf="tareaEnEdicion !== tarea.id; else editEnProceso">
+                <div *ngIf="tareaEnEdicion !== tarea.id; else editEnProceso"
+                 cdkDrag
+        [cdkDragData]="tarea">
                   <div
                     class="task-card"
                     [class.urgente]="tarea.prioridad === 'urgente'"
@@ -134,9 +168,23 @@
                       <p class="description" *ngIf="tarea.descripcion">{{ tarea.descripcion }}</p>
                     </div>
                     <div class="actions">
-                      <button (click)="editar(tarea)">✏️</button>
-                      <button (click)="moverTarea(tarea.id, 'pendiente')">⬅️</button>
-                      <button (click)="moverTarea(tarea.id, 'hecho')">➡️</button>
+                      <button class="btn-action btn-edit" (click)="editar(tarea)" title="Editar">
+                        <i class="fas fa-pencil"></i>
+                      </button>
+                      <button
+                        class="btn-action btn-move"
+                        (click)="moverTarea(tarea.id, 'pendiente')"
+                        title="Mover a Por hacer"
+                      >
+                        <i class="fas fa-arrow-left"></i>
+                      </button>
+                      <button
+                        class="btn-action btn-move"
+                        (click)="moverTarea(tarea.id, 'hecho')"
+                        title="Mover a Hecho"
+                      >
+                        <i class="fas fa-arrow-right"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -157,14 +205,18 @@
                       ></textarea>
                       <label class="priority-label"
                         >Prioridad:
-                        <select [(ngModel)]="prioridadTemporal">
+                        <select class="edit-select" [(ngModel)]="prioridadTemporal">
                           <option value="normal">Normal</option>
                           <option value="urgente">Urgente</option>
                         </select>
                       </label>
                       <div class="actions">
-                        <button (click)="guardarEdicion(tarea.id)">✅</button>
-                        <button (click)="cancelarEdicion()">❌</button>
+                        <button class="btn-save" (click)="guardarEdicion(tarea.id)">
+                          <i class="fas fa-check"></i> Guardar
+                        </button>
+                        <button class="btn-cancel-edit" (click)="cancelarEdicion()">
+                          <i class="fas fa-times"></i> Cancelar
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -178,10 +230,16 @@
         <!-- COLUMNA: HECHO -->
         <div class="column col-hecho">
           <h3>Hecho</h3>
-          <div class="task-list">
+          <div class="task-list"
+          cdkDropList            id="lista-hecho"
+            [cdkDropListConnectedTo]="['lista-pendiente', 'lista-proceso']"
+            [cdkDropListData]="tareasHechas"
+            (cdkDropListDropped)="onDrop($event, 'hecho')">
             <ng-container *ngFor="let tarea of misTareas">
               <ng-container *ngIf="tarea.estado === 'hecho'">
-                <div *ngIf="tareaEnEdicion !== tarea.id; else editHecho">
+                <div *ngIf="tareaEnEdicion !== tarea.id; else editHecho"
+                 cdkDrag
+        [cdkDragData]="tarea">
                   <div
                     class="task-card"
                     [class.urgente]="tarea.prioridad === 'urgente'"
@@ -192,9 +250,23 @@
                       <p class="description" *ngIf="tarea.descripcion">{{ tarea.descripcion }}</p>
                     </div>
                     <div class="actions">
-                      <button (click)="editar(tarea)">✏️</button>
-                      <button (click)="moverTarea(tarea.id, 'proceso')">⬅️</button>
-                      <button (click)="eliminar(tarea.id)">🗑️</button>
+                      <button class="btn-action btn-edit" (click)="editar(tarea)" title="Editar">
+                        <i class="fas fa-pencil"></i>
+                      </button>
+                      <button
+                        class="btn-action btn-move"
+                        (click)="moverTarea(tarea.id, 'proceso')"
+                        title="Mover a En proceso"
+                      >
+                        <i class="fas fa-arrow-left"></i>
+                      </button>
+                      <button
+                        class="btn-action btn-delete"
+                        (click)="eliminar(tarea.id)"
+                        title="Eliminar"
+                      >
+                        <i class="fas fa-trash"></i>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -215,14 +287,18 @@
                       ></textarea>
                       <label class="priority-label"
                         >Prioridad:
-                        <select [(ngModel)]="prioridadTemporal">
+                        <select class="edit-select" [(ngModel)]="prioridadTemporal">
                           <option value="normal">Normal</option>
                           <option value="urgente">Urgente</option>
                         </select>
                       </label>
                       <div class="actions">
-                        <button (click)="guardarEdicion(tarea.id)">✅</button>
-                        <button (click)="cancelarEdicion()">❌</button>
+                        <button class="btn-save" (click)="guardarEdicion(tarea.id)">
+                          <i class="fas fa-check"></i> Guardar
+                        </button>
+                        <button class="btn-cancel-edit" (click)="cancelarEdicion()">
+                          <i class="fas fa-times"></i> Cancelar
+                        </button>
                       </div>
                     </div>
                   </div>
