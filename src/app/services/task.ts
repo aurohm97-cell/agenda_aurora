@@ -1,63 +1,69 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { Firestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from '@angular/fire/firestore';
+import { Auth } from '@angular/fire/auth';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TaskService {
-  private readonly DB_NAME = 'tareas_agenda';
+  private firestore = inject(Firestore);
+  private auth = inject(Auth);
 
-  constructor() {}
-
-  // Obtener tareas
-  getTareas(): any[] {
-    const data = localStorage.getItem(this.DB_NAME);
-    return data ? JSON.parse(data) : [];
+  // Obtener el uid del usuario actual
+  private getUid(): string | null {
+    return this.auth.currentUser?.uid || null;
   }
 
-  // Guardar una nueva tarea
-  agregarTarea(titulo: string, descripcion: string = '', prioridad: string = 'normal') {
-    const tareas = this.getTareas();
-    const nueva = {
-      id: Date.now(), // Usamos la fecha como ID único
-      titulo: titulo,
-      descripcion: descripcion,
-      prioridad: prioridad,
+  // Obtener tareas del usuario actual
+  async getTareas(): Promise<any[]> {
+    const uid = this.getUid();
+    if (!uid) return [];
+
+    const tareasRef = collection(this.firestore, 'tareas');
+    const q = query(tareasRef, where('uid', '==', uid));
+    const snapshot = await getDocs(q);
+
+    return snapshot.docs.map(d => ({
+      id: d.id,  // ID del documento de Firestore
+      ...d.data()
+    }));
+  }
+
+  // Añadir tarea nueva
+  async agregarTarea(titulo: string, descripcion: string = '', prioridad: string = 'normal'): Promise<any[]> {
+    const uid = this.getUid();
+    if (!uid) return [];
+
+    const tareasRef = collection(this.firestore, 'tareas');
+    await addDoc(tareasRef, {
+      uid,
+      titulo,
+      descripcion,
+      prioridad,
       estado: 'pendiente'
-       // Por defecto todas empiezan en "Por hacer"
-    };
-    tareas.push(nueva);
-    localStorage.setItem(this.DB_NAME, JSON.stringify(tareas));
-    return tareas;
+    });
+
+    return this.getTareas();
   }
 
-// Update del CRUD: Cambiar el estado (pendiente -> proceso -> hecho)
-  actualizarEstado(id: number, nuevoEstado: string) {
-    let tareas = this.getTareas();
-    const index = tareas.findIndex(t => t.id === id);
-    if (index !== -1) {
-      tareas[index].estado = nuevoEstado;
-      localStorage.setItem(this.DB_NAME, JSON.stringify(tareas));
-    }
-    return tareas;
-  }
-// Update: Cambiar el texto de la tarea
-  editarTarea(id: number, nuevoTitulo: string, nuevaDescripcion: string, nuevaPrioridad: string) {
-    let tareas = this.getTareas();
-    const index = tareas.findIndex(t => t.id === id);
-    if (index !== -1) {
-      tareas[index].titulo = nuevoTitulo;
-      tareas[index].descripcion = nuevaDescripcion;
-      tareas[index].prioridad = nuevaPrioridad;
-      localStorage.setItem(this.DB_NAME, JSON.stringify(tareas));
-    }
-    return tareas;
+  // Actualizar estado (mover entre columnas)
+  async actualizarEstado(id: string, nuevoEstado: string): Promise<any[]> {
+    const tareaRef = doc(this.firestore, 'tareas', id);
+    await updateDoc(tareaRef, { estado: nuevoEstado });
+    return this.getTareas();
   }
 
-  // Borrar tarea (Parte del CRUD)
-  borrarTarea(id: number) {
-    let tareas = this.getTareas();
-    tareas = tareas.filter(t => t.id !== id);
-    localStorage.setItem(this.DB_NAME, JSON.stringify(tareas));
-    return tareas;
+  // Editar título, descripción y prioridad
+  async editarTarea(id: string, titulo: string, descripcion: string, prioridad: string): Promise<any[]> {
+    const tareaRef = doc(this.firestore, 'tareas', id);
+    await updateDoc(tareaRef, { titulo, descripcion, prioridad });
+    return this.getTareas();
+  }
+
+  // Borrar tarea
+  async borrarTarea(id: string): Promise<any[]> {
+    const tareaRef = doc(this.firestore, 'tareas', id);
+    await deleteDoc(tareaRef);
+    return this.getTareas();
   }
 }

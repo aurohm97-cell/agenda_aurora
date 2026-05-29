@@ -5,6 +5,7 @@ import { routes } from './app.routes';
 // 🔥 Importamos las herramientas de Firebase
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
+import { getAuth, provideAuth } from '@angular/fire/auth';
 
 // 🔑 Tus credenciales de Firebase
 const firebaseConfig = {
@@ -22,6 +23,7 @@ export const appConfig: ApplicationConfig = {
     provideBrowserGlobalErrorListeners(), // <-- Esto es lo tuyo y lo mantenemos
     provideRouter(routes),                // <-- Esto también es lo tuyo
     provideFirebaseApp(() => initializeApp(firebaseConfig)),
-    provideFirestore(() => getFirestore())
+    provideFirestore(() => getFirestore()),
+    provideAuth(() => getAuth()),
   ]
 };
