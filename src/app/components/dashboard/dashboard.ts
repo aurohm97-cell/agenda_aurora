@@ -129,11 +129,11 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     this.nuevaPrioridad = 'normal';
   }
 
-  async moverTarea(id: number, nuevoEstado: string) {
+  async moverTarea(id: string, nuevoEstado: string) {
     this.misTareas = await this.taskService.actualizarEstado(id, nuevoEstado);
   }
 
-async onDrop(event: CdkDragDrop<any[]>, nuevoEstado: string) {
+  async onDrop(event: CdkDragDrop<any[]>, nuevoEstado: string) {
     if (event.previousContainer !== event.container) {
       const tarea = event.previousContainer.data[event.previousIndex];
       this.misTareas = await this.taskService.actualizarEstado(tarea.id, nuevoEstado);
@@ -147,7 +147,7 @@ async onDrop(event: CdkDragDrop<any[]>, nuevoEstado: string) {
     this.prioridadTemporal = tarea.prioridad || 'normal';
   }
 
-  async guardarEdicion(id: number) {
+  async guardarEdicion(id: string) {
     if (this.tituloTemporal.trim() !== '') {
       this.misTareas = await this.taskService.editarTarea(
         id,
@@ -168,7 +168,7 @@ async onDrop(event: CdkDragDrop<any[]>, nuevoEstado: string) {
     this.prioridadTemporal = 'normal';
   }
 
-  eliminar(id: number) {
+  eliminar(id: string) {
     this.tareaABorrar = id;
   }
 
