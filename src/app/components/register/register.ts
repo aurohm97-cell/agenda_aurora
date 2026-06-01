@@ -14,6 +14,7 @@ import { AuthService } from '../../services/auth'; // Ruta a tu servicio corto
 export class RegisterComponent {
 mostrandoModalExito = false;
 mostrandoModalError = false;
+mensajeError = '';
 
   registerForm = new FormGroup({
     nombre: new FormControl('', [Validators.required]),
@@ -32,17 +33,25 @@ mostrandoModalError = false;
 
       // 2. Se los pasamos al servicio.
       // Usamos el "!" para decirle a TS que estamos seguros de que no son nulos.
-      const exito = await this.authService.registrar(nombre!, email!, password!);
+      const resultado = await this.authService.registrar(nombre!, email!, password!);
 
-      if (exito) {
-        // En vez de alert, abrimos el modal de éxito
-        this.mostrandoModalExito = true; 
-      } else {
-        // En vez de alert, abrimos el modal de error
-        this.mostrandoModalError = true; 
-      }
+      if (resultado === 'ok') {
+       this.mostrandoModalExito = true;
+    } else if (resultado === 'email-en-uso') {
+      this.mensajeError = 'Este email ya está registrado.';
+      this.mostrandoModalError = true;
+    } else if (resultado === 'email-invalido') {
+      this.mensajeError = 'El email no es válido.';
+      this.mostrandoModalError = true;
+    } else if (resultado === 'password-debil') {
+      this.mensajeError = 'La contraseña debe tener al menos 6 caracteres.';
+      this.mostrandoModalError = true;
+    } else {
+      this.mensajeError = 'Ha ocurrido un error. Inténtalo de nuevo.';
+      this.mostrandoModalError = true;
     }
   }
+}
 
   // 2. Funciones para cerrar los modales
   cerrarModalError() {

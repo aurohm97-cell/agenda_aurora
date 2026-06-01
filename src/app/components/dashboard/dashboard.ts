@@ -5,6 +5,7 @@ import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
+import { onAuthStateChanged } from '@angular/fire/auth';
 
 @Component({
   selector: 'app-dashboard',
@@ -63,13 +64,20 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    // Al cargar la pantalla, leemos las tareas
-    this.misTareas = await this.taskService.getTareas();
+    const user = await new Promise<any>(resolve => {
+    const unsubscribe = onAuthStateChanged(this.authService.authInstance, (user) => {
+      unsubscribe();
+      resolve(user as any);
+    });
+  });
 
+  if (user) {
   const datos = await this.authService.getDatosUsuario();
     if (datos) {
       this.usuarioNombre = datos.nombre;
       this.usuarioRol = datos.rol;
+    }
+      this.misTareas = await this.taskService.getTareas();
     } else {
       // Si no hay usuario autenticado, redirigimos al login
       this.router.navigate(['/login']);

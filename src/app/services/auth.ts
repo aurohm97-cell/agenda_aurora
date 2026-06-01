@@ -13,7 +13,7 @@ export class AuthService {
   usuario$ = user(this.auth);
 
   // Registro — crea el usuario en Firebase Auth y guarda nombre/rol en Firestore
-  async registrar(nombre: string, email: string, password: string, rol: string = 'Usuario'): Promise<boolean> {
+  async registrar(nombre: string, email: string, password: string, rol: string = 'Usuario'): Promise<string> {
     try {
       const credencial = await createUserWithEmailAndPassword(this.auth, email, password);
       const uid = credencial.user.uid;
@@ -24,12 +24,13 @@ export class AuthService {
         email,
         rol
         // sin password — Firebase Auth la gestiona de forma segura
-      });
-
-      return true;
-    } catch (error) {
-      console.error('Error al registrar:', error);
-      return false;
+      }); 
+      return 'ok';
+    } catch (error: any) {
+if (error.code === 'auth/email-already-in-use') return 'email-en-uso';
+    if (error.code === 'auth/invalid-email') return 'email-invalido';
+    if (error.code === 'auth/weak-password') return 'password-debil';
+    return 'error';
     }
   }
 
@@ -71,5 +72,7 @@ export class AuthService {
   async logout(): Promise<void> {
     await signOut(this.auth);
   }
+get authInstance() {
+    return this.auth;
+  }
 }
-
