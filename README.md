@@ -1,59 +1,78 @@
-# AgendaAurora
+# 🌿 Agenda Aurora
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.2.9.
+A Trello-inspired Kanban task manager built with Angular and Firebase.  
+Live demo: [https://agenda-aurora-caf9b.web.app](https://agenda-aurora-caf9b.web.app)
 
-## Development server
+---
 
-To start a local development server, run:
+## ✨ Features
+
+- 📋 Kanban board with three columns: To Do, In Progress, Done
+- 🔀 Drag and drop between columns (Angular CDK)
+- ✏️ Create, edit, and delete tasks with title, description and priority
+- 🔐 Authentication with Firebase Auth (register and login)
+- ☁️ Real-time data stored in Firebase Firestore per user
+- 📊 Task summary panel with donut chart
+- 🎨 Animated gradient background that follows the cursor
+- 📱 Responsive layout with topbar and sidebar
+
+---
+
+## 🛠️ Tech Stack
+
+- **Angular 21** — Frontend framework
+- **TypeScript** — Main language
+- **Firebase Auth** — User authentication
+- **Firebase Firestore** — Cloud database
+- **Angular CDK** — Drag and drop
+- **Font Awesome** — Icons
+- **CSS3** — Custom animations and gradients
+
+---
+
+## 🚀 Try it out
+
+**Option 1 — Use the demo account:**
+| Field | Value |
+|-------|-------|
+| Email | demo@agendaaurora.com |
+| Password | 123456 |
+
+**Option 2 — Create your own account:**  
+Register at the app and your tasks will be saved to your own account in the cloud.
+
+---
+
+## 📸 Screenshots
+
+*(coming soon)*
+
+---
+
+## 🔒 Security
+
+- Passwords managed by Firebase Auth — never stored in plain text
+- Firestore security rules ensure each user can only access their own data
+- Environment variables used for Firebase credentials
+
+---
+
+## 👩‍💻 Author
+
+**Aurora H.M. (AHM)**  
+Built as a portfolio project to demonstrate frontend development skills with Angular, TypeScript and Firebase.
+
+---
+
+## 📦 Local Development
 
 ```bash
+# Install dependencies
+npm install
+
+# Start development server
 ng serve
-```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
-
-## Code scaffolding
-
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
-
-```bash
-ng generate component component-name
-```
-
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
+# Build for production
 ng build
 ```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
