@@ -6,11 +6,14 @@ import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { onAuthStateChanged } from '@angular/fire/auth';
+import { NavbarComponent } from '../navbar/navbar';
+import { SidebarComponent } from '../sidebar/sidebar';
+import { StatsPanelComponent } from '../stats-panel/stats-panel';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, FormsModule, DragDropModule],
+  imports: [CommonModule, FormsModule, DragDropModule, NavbarComponent, SidebarComponent, StatsPanelComponent],
   templateUrl: './dashboard.html',
   styleUrls: ['./dashboard.css'],
 })
@@ -53,8 +56,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     const container = document.querySelector('.dashboard-container') as HTMLElement | null;
     if (container) {
       const rect = container.getBoundingClientRect();
-      this.targetX = (event.clientX - rect.left) / rect.width * 100;
-      this.targetY = (event.clientY - rect.top) / rect.height * 100;
+      this.targetX = ((event.clientX - rect.left) / rect.width) * 100;
+      this.targetY = ((event.clientY - rect.top) / rect.height) * 100;
     }
   }
   constructor(
@@ -64,22 +67,21 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    const user = await new Promise<any>(resolve => {
-    const unsubscribe = onAuthStateChanged(this.authService.authInstance, (user) => {
-      unsubscribe();
-      resolve(user as any);
+    const user = await new Promise<any>((resolve) => {
+      const unsubscribe = onAuthStateChanged(this.authService.authInstance, (user) => {
+        unsubscribe();
+        resolve(user as any);
+      });
     });
-  });
 
-  if (user) {
-  const datos = await this.authService.getDatosUsuario();
-    if (datos) {
-      this.usuarioNombre = datos.nombre;
-      this.usuarioRol = datos.rol;
-    }
+    if (user) {
+      const datos = await this.authService.getDatosUsuario();
+      if (datos) {
+        this.usuarioNombre = datos.nombre;
+        this.usuarioRol = datos.rol;
+      }
       this.misTareas = await this.taskService.getTareas();
     } else {
-      // Si no hay usuario autenticado, redirigimos al login
       this.router.navigate(['/login']);
     }
   }
@@ -89,20 +91,32 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private animarGradiente(): void {
-    this.mouseX += (this.targetX - this.mouseX) * 1.0;
-    this.mouseY += (this.targetY - this.mouseY) * 1.0;
+    const isDark = document.body.classList.contains('dark');
+    this.mouseX += (this.targetX - this.mouseX) * 0.08;
+    this.mouseY += (this.targetY - this.mouseY) * 0.08;
 
     const container = document.querySelector('.dashboard-container') as HTMLElement | null;
     if (container) {
-      container.style.backgroundImage = `
-        radial-gradient(circle at ${this.mouseX}% ${this.mouseY}%,
-          rgba(190, 145, 190, 0.65) 0.5%,
-          rgba(212, 235, 214, 0.3) 5%,
-          rgba(250, 250, 248, 0) 5%),
-        linear-gradient(135deg, #fafaf8 0%, #d4ebd6 100%)
-      `;
+      if (isDark) {
+        container.style.backgroundImage = `
+          radial-gradient(circle at ${this.mouseX}% ${this.mouseY}%,
+            rgba(155, 127, 182, 0.18) 0%,
+            rgba(37, 40, 37, 0.75) 18%,
+            rgba(26, 29, 26, 0.98) 42%,
+            rgba(26, 29, 26, 1) 100%)
+        `;
+      } else {
+        container.style.backgroundImage = `
+          radial-gradient(circle at ${this.mouseX}% ${this.mouseY}%,
+            rgba(190, 145, 190, 0.65) 0.5%,
+            rgba(212, 235, 214, 0.3) 5%,
+            rgba(250, 250, 248, 0) 5%),
+          linear-gradient(135deg, #fafaf8 0%, #d4ebd6 100%)
+        `;
+      }
     }
- this.animFrameId = requestAnimationFrame(() => this.animarGradiente());
+
+    this.animFrameId = requestAnimationFrame(() => this.animarGradiente());
   }
 
   ngOnDestroy(): void {
@@ -204,5 +218,4 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   cancelarLogout() {
     this.mostrandoModalLogout = false; // Cerramos sin hacer nada
   }
-  }
-
+}

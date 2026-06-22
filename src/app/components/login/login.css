@@ -43,10 +43,10 @@ label {
 .login-card {
   position: relative;
   z-index: 10;
-  background: #ffffff;
+  background: var(--bg-card);
   padding: 45px;
   border-radius: 16px;
-  border: 1px solid #d4ebd6;
+  border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(81, 151, 85, 0.08);
   width: 100%;
   max-width: 480px;
@@ -54,7 +54,7 @@ label {
 }
 
 .login-card h2 {
-  color: #519755;
+  color: var(--color-primario);
   margin-bottom: 30px;
   font-size: 2rem;
   font-weight: 700;
@@ -77,7 +77,7 @@ form {
 .form-group label {
   display: block;
   margin-bottom: 8px;
-  color: #519755;
+  color: var(--color-primario);
   font-size: 0.9rem;
   font-weight: 600;
 }
@@ -85,17 +85,17 @@ form {
 input {
   width: 100%;
   padding: 12px 16px;
-  background-color: #f9fbf9;
-  border: 1px solid #d4ebd6;
+  background-color: var(--color-fondo);
+  border: 1px solid var(--border);
   border-radius: 8px;
   font-size: 1rem;
-  color: #1a2e1c;
+  color: var(--color-texto-principal);
   transition: all 0.2s ease;
 }
 
 input:focus {
   outline: none;
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-color: #BE91BE;
   box-shadow: 0 0 0 4px rgba(190, 145, 190, 0.15);
 }
@@ -130,7 +130,7 @@ button:disabled {
 
 p {
   margin-top: 25px;
-  color: #616e62;
+  color: var(--color-texto-suave);
   font-size: 0.95rem;
 }
 
@@ -169,11 +169,11 @@ a:hover {
   max-width: 400px;
   text-align: center;
   box-shadow: 0 20px 40px rgba(0,0,0,0.2);
-  border: 2px solid #DBAAA7;
+  border: 2px solid var(--border);
 }
 
 .modal-box h3 {
-  color: #519755;
+  color: var(--color-primario);
   margin-top: 0;
 }
 

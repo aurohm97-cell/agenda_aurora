@@ -1,3 +1,47 @@
+:root {
+  /* Colores principales */
+  --color-primario: #519755;
+  --color-acento: #BE91BE;
+  --color-superficie: #ffffff;
+  --color-fondo: #f4f7f4;
+  --color-texto-principal: #1a2e1c;
+  --color-texto-suave: #616e62;
+
+  /* Dashboard */
+  --bg-card: #ffffff;
+  --bg-sidebar: #ffffff;
+  --border: #d4ebd6;
+  --col-pendiente: #519755;
+  --col-proceso: #c8973a;
+  --col-hecho: #9b7fb6;
+  --col-urgente: #DBAAA7;
+  --color-alerta: #DBAAA7;
+}
+
+body.dark {
+  --color-primario: #3d6649;
+  --color-acento: #9b7fb6;
+  --color-superficie: #252825;
+  --color-fondo: #1a1d1a;
+  --color-texto-principal: #e8ede8;
+  --color-texto-suave: #a8b5a8;
+
+  --bg-card: #252825;
+  --bg-sidebar: #1e211e;
+  --border: #333833;
+  --col-pendiente: #519755;
+  --col-proceso: #a8861f;
+  --col-hecho: #6548a3;
+  --col-urgente: #DBAAA7;
+  --color-alerta: #DBAAA7;
+}
+
+* {
+  transition: background-color 0.25s ease,
+              color 0.15s ease,
+              border-color 0.25s ease;
+}
+
 .login-container {
   display: flex;
   justify-content: center;

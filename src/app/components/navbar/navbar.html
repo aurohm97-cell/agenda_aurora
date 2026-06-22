@@ -1,0 +1,16 @@
+<header class="topbar">
+  <span class="topbar-logo">
+    <i class="fas fa-leaf"></i> Agenda Aurora
+  </span>
+   <div class="topbar-right">
+    <button class="theme-toggle" (click)="theme.toggle()" 
+      [attr.aria-label]="theme.isDark ? 'Activar modo claro' : 'Activar modo oscuro'">
+      <i [class]="theme.isDark ? 'fas fa-sun' : 'fas fa-moon'"></i>
+    </button>
+    <span class="topbar-usuario">
+       <i class="fas fa-user"></i> ¡Hola, <strong>{{ usuarioNombre }}</strong>!
+      <small class="role-badge">{{ usuarioRol }}</small>
+    </span>
+   </div>
+</header>
+

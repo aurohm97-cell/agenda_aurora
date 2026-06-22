@@ -1,20 +1,20 @@
 /* ==========================================
    🎨 CONFIGURACIÓN GENERAL Y MARCO EXTERIOR (WILDFLOWERS)
    ========================================== */
-.dashboard-container, 
-header, 
+.dashboard-container,
+header,
 .dashboard-header,
 .board,
-.column, 
-.task-card, 
-input, 
-textarea, 
-button, 
-p, 
-span, 
-strong, 
-h1, 
-h2, 
+.column,
+.task-card,
+input,
+textarea,
+button,
+p,
+span,
+strong,
+h1,
+h2,
 h3 {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif !important;
   box-sizing: border-box;
@@ -25,30 +25,31 @@ h3 {
   display: flex;
   flex-direction: column;
   padding: 40px; /* Espacio de cortesía para que el doble borde respire */
-   background: linear-gradient(135deg, #fafaf8 0%, #d4ebd6 100%);
+  background: linear-gradient(135deg, var(--color-fondo) 0%, var(--border) 100%);
   /* El JS sobreescribirá backgroundImage dinámicamente */
   min-height: 100vh;
   width: 100%;
-
 }
 
 /* ==========================================
    🏢 CABECERA DE BIENVENIDA 
    ========================================== */
-header, .dashboard-header {
+header,
+.dashboard-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px 30px;
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 12px;
-  border: 1px solid #e1ebe2; /* Borde sutil en tono verde claro */
+  border: 1px solid var(--border); /* Borde sutil en tono verde claro */
   box-shadow: 0 4px 14px rgba(81, 151, 85, 0.04);
   width: 100%;
 }
 
-header h1, .user-welcome h2 {
-  color: #519755; /* Título principal en Verde Bosque */
+header h1,
+.user-welcome h2 {
+  color: var(--color-primario);
   margin: 0;
   font-weight: 700;
   font-size: 1.8rem;
@@ -56,8 +57,8 @@ header h1, .user-welcome h2 {
 
 /* Etiqueta de ADMINISTRADOR (Verde Menta de la nueva paleta) */
 .role-badge {
-  background-color: #A8DCAB; 
-  color: #1e3d21; /* Texto oscuro hiper-legible sobre el menta */
+  background-color: var(--border);
+  color: var(--color-texto-principal); /* Texto oscuro hiper-legible sobre el menta */
   padding: 4px 12px;
   border-radius: 20px;
   font-size: 0.75rem;
@@ -71,8 +72,8 @@ header h1, .user-welcome h2 {
 /* Botón de Cerrar Sesión interactivo */
 header button {
   background-color: transparent;
-  color: #519755;
-  border: 2px solid #519755;
+  color: var(--color-primario);
+  border: 2px solid var(--color-primario);
   padding: 10px 22px;
   border-radius: 8px;
   font-weight: bold;
@@ -83,12 +84,12 @@ header button {
 }
 
 header button:hover {
-  background-color: #519755;
-  color: #ffffff;
+  background-color: var(--color-primario);
+  color: var(--color-superficie);
 }
 
 /* ==========================================
-   📋 EL TABLERO: COLUMNAS CON ENCAJE MILIMÉTRICO
+   📋 EL TABLERO
    ========================================== */
 .board {
   display: flex;
@@ -101,8 +102,8 @@ header button:hover {
 
 /* Columnas: Usan un fondo sutil inspirado en el Rosa Palo para contrastar las tarjetas */
 .column {
-  background-color: #eff5ef; /* Fondo sutil extraído de tu #DBAAA7 */
-  border: 1px solid #d4ebd6;;
+  background-color: var(--color-fondo); /* Fondo sutil extraído de tu #DBAAA7 */
+  border: 1px solid var(--border);
   border-radius: 14px;
   width: 320px;
   min-width: 320px;
@@ -114,8 +115,8 @@ header button:hover {
 /* Título de la Columna: Bloque sólido Verde Bosque de alto impacto */
 .column h3 {
   margin: 0;
-  color: #ffffff;
-  background-color: #519755; /* Verde Bosque como rey del orden */
+  color: var(--color-superficie);
+  background-color: var(--col-todo); /* Verde Bosque como rey del orden */
   padding: 16px;
   text-transform: uppercase;
   font-size: 0.85rem;
@@ -133,22 +134,25 @@ header button:hover {
    🃏 TARJETAS DE TAREA (Toques de Malva e Interacción)
    ========================================== */
 .task-card {
-  background-color: #ffffff;
+  background-color: var(--bg-card);
   border-radius: 10px;
   padding: 16px;
   margin-bottom: 14px;
-  border: 1px solid #e3dede;
+  border: 1px solid var(--border);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.01);
   display: flex;
   flex-direction: column;
   gap: 12px;
-  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s,
+    border-color 0.2s;
 }
 
 /* Al pasar el ratón, la tarjeta se ilumina en el precioso Malva de la paleta */
 .task-card:hover {
   transform: translateY(-3px);
-  border-color: #BE91BE; /* Iluminación perimetral Malva */
+  border-color: var(--color-acento); /* Iluminación perimetral Malva */
   box-shadow: 0 6px 14px rgba(190, 145, 190, 0.18);
 }
 
@@ -156,46 +160,46 @@ header button:hover {
 .task-content strong {
   display: block;
   font-size: 1.05rem;
-  color: #1a2e1c; 
+  color: var(--color-texto-principal);
   margin-bottom: 4px;
   font-weight: 700;
 }
 
 .description {
   font-size: 0.9rem;
-  color: #4a544b; /* Gris apagado con matiz de bosque */
+  color: var(--color-texto-suave);
   margin-bottom: 5px;
   line-height: 1.4;
 }
 
 /* Botones pequeños de las tarjetas (Editar, mover, borrar) */
 .task-card button {
-  border: 1px solid #d0cbd0;
-  background: #ffffff;
+  border: 1px solid var(--border);
+  background: var(--bg-card);
   padding: 6px 12px;
   border-radius: 6px;
   cursor: pointer;
   font-size: 0.85rem;
-  color: #555555;
+  color: var(--color-texto-suave);
   font-weight: 600;
   transition: all 0.15s;
 }
 
 .task-card button:hover {
-  background-color: #fdf5fd; /* Toque malva sutil */
-  border-color: #BE91BE;
-  color: #5e3b5e;
+  background-color: var(--color-fondo); /* Toque malva sutil */
+  border-color: var(--color-acento);
+  color: var(--color-texto-principal);
 }
 
 /* ==========================================
-   ➕ BOTÓN AÑADIR TAREA (Sofisticado y con Hover Sólido)
+   ➕ BOTÓN AÑADIR TAREA
    ========================================== */
 .add-btn {
   width: calc(100% - 32px);
   margin: 0 16px 16px 16px;
   background-color: transparent;
-  color: #519755;
-  border: 2px dashed #519755;
+  color: var(--color-primario);
+  border: 2px dashed var(--color-primario);
   padding: 12px;
   border-radius: 8px;
   cursor: pointer;
@@ -205,8 +209,8 @@ header button:hover {
 }
 
 .add-btn:hover {
-  background-color: #519755;
-  color: #ffffff;
+  background-color: var(--color-primario);
+  color: var(--color-superficie);
   border-style: solid;
 }
 
@@ -216,24 +220,28 @@ header button:hover {
   font-weight: bold;
   font-size: 1.1rem;
   padding: 8px;
-  border: 2px solid #BE91BE; /* Foco en malva */
+  border: 2px solid var(--color-acento); /* Foco en malva */
   border-radius: 6px;
   margin-bottom: 8px;
+  background: var(--bg-card);
+  color: var(--color-texto-principal);
 }
 
 .edit-desc {
   width: 100%;
   min-height: 80px;
   padding: 8px;
-  border: 2px solid #e3dede;
+  border: 2px solid var(--border);
   border-radius: 6px;
   font-size: 0.9rem;
   resize: vertical;
   margin-bottom: 10px;
+  background: var(--bg-card);
+  color: var(--color-texto-principal);
 }
 
 /* ==========================================
-   🚨 MODAL DE CONFIRMACIÓN (Usa el Rosa Palo para peligro)
+   🚨 MODAL DE CONFIRMACIÓN
    ========================================== */
 .modal-overlay {
   position: fixed;
@@ -249,10 +257,10 @@ header button:hover {
 }
 
 .modal-card {
-  background: #ffffff;
+  background: var(--bg-card);
   padding: 30px;
   border-radius: 16px;
-  border: 2px solid #519755;
+  border: 2px solid var(--color-primario);
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
   text-align: center;
   max-width: 380px;
@@ -261,7 +269,7 @@ header button:hover {
 
 .modal-card h3 {
   margin-top: 0;
-  color: #519755;
+  color: var(--color-primario);
   font-size: 1.4rem;
   font-weight: 700;
 }
@@ -273,8 +281,8 @@ header button:hover {
 }
 
 .btn-cancel {
-  background: #f5eae8;
-  color: #519755;
+  background: var(--color-fondo);
+  color: var(--color-primario);
   border: none;
   padding: 10px 20px;
   border-radius: 6px;
@@ -283,7 +291,7 @@ header button:hover {
 }
 
 .btn-danger {
-  background: #DBAAA7; /* Tu Rosa Palo actúa como el botón de alerta/borrado */
+  background: var(--color-alerta); /* Tu Rosa Palo actúa como el botón de alerta/borrado */
   color: white;
   border: none;
   padding: 10px 20px;
@@ -297,7 +305,7 @@ header button:hover {
   opacity: 0.9;
 }
 .btn-cancel:hover {
-  background: #ebdcd9;
+  background: var(--border);
 }
 
 :host {
@@ -313,21 +321,21 @@ header button:hover {
   justify-content: space-between;
   padding: 0 28px;
   height: 56px;
-  background: #ffffff;
-  border-bottom: 1px solid #d4ebd6;
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
   box-shadow: 0 2px 8px rgba(81, 151, 85, 0.06);
 }
 
 .topbar-logo {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #519755;
+  color: var(--color-primario);
   letter-spacing: -0.3px;
 }
 
 .topbar-usuario {
   font-size: 0.9rem;
-  color: #616e62;
+  color: var(--color-texto-suave);
 }
 
 .app-body {
@@ -339,8 +347,8 @@ header button:hover {
 /* SIDEBAR */
 .sidebar {
   width: 64px;
-  background: #ffffff;
-  border-right: 1px solid #d4ebd6;
+  background: var(--bg-sidebar);
+  border-right: 1px solid var(--border);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -372,11 +380,11 @@ header button:hover {
 }
 
 .sidebar-item:hover {
-  background: #eff5ef;
+  background: var(--color-fondo);
 }
 
 .sidebar-item.active {
-  background: #d4ebd6;
+  background: var(--border);
 }
 
 .sidebar-logout {
@@ -391,7 +399,7 @@ header button:hover {
 }
 
 .sidebar-logout:hover {
-  background: #fdf0ef;
+  background: var(--color-fondo);
 }
 
 .board-area {
@@ -408,26 +416,38 @@ header button:hover {
 }
 
 /* Acento por columna — solo el header cambia de color */
-.column.col-pendiente h3 { background-color: #519755; } /* verde — ya lo tienes */
-.column.col-proceso h3   { background-color: #c8973a; } /* ámbar cálido */
-.column.col-hecho h3     { background-color: #9b7fb6; } /* lila, tu paleta */
+.column.col-pendiente h3 {
+  background-color: var(--col-pendiente);
+} /* verde — ya lo tienes */
+.column.col-proceso h3 {
+  background-color: var(--col-proceso);
+} /* ámbar cálido */
+.column.col-hecho h3 {
+  background-color: var(--col-hecho);
+} /* lila, tu paleta */
 
 /* El fondo de la columna también recibe un toque sutil */
-.column.col-proceso { background-color: #fdf6ee; border-color: #f0dfc0; }
-.column.col-hecho   { background-color: #f5f0f9; border-color: #e0d0e8; }
+.column.col-proceso {
+  background-color: var(--color-fondo);
+  border-color: var(--border);
+}
+.column.col-hecho {
+  background-color: var(--color-fondo);
+  border-color: var(--border);
+}
 
 /* Franja de prioridad izquierda */
 .task-card.urgente {
-  border-left: 4px solid #DBAAA7;
+  border-left: 4px solid var(--col-urgente);
 }
 
 .task-card.normal {
-  border-left: 4px solid #d4ebd6;
+  border-left: 4px solid var(--border);
 }
 
 .empty-state {
   text-align: center;
-  color: #a0aba1;
+  color: var(--color-texto-suave);
   font-size: 0.88rem;
   padding: 24px 12px;
   font-style: italic;
@@ -449,21 +469,37 @@ header button:hover {
 }
 
 /* Escalonado: cada tarjeta aparece ligeramente después que la anterior */
-.task-card:nth-child(1) { animation-delay: 0.15s; }
-.task-card:nth-child(2) { animation-delay: 0.20s; }
-.task-card:nth-child(3) { animation-delay: 0.25s; }
-.task-card:nth-child(4) { animation-delay: 0.30s; }
-.task-card:nth-child(5) { animation-delay: 0.35s; }
-.task-card:nth-child(6) { animation-delay: 0.40s; }
-.task-card:nth-child(7) { animation-delay: 0.45s; }
-.task-card:nth-child(8) { animation-delay: 0.50s; }
+.task-card:nth-child(1) {
+  animation-delay: 0.15s;
+}
+.task-card:nth-child(2) {
+  animation-delay: 0.2s;
+}
+.task-card:nth-child(3) {
+  animation-delay: 0.25s;
+}
+.task-card:nth-child(4) {
+  animation-delay: 0.3s;
+}
+.task-card:nth-child(5) {
+  animation-delay: 0.35s;
+}
+.task-card:nth-child(6) {
+  animation-delay: 0.4s;
+}
+.task-card:nth-child(7) {
+  animation-delay: 0.45s;
+}
+.task-card:nth-child(8) {
+  animation-delay: 0.5s;
+}
 
 .stats-panel {
   width: 200px;
   min-width: 220px;
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: 14px;
-  border: 1px solid #d4ebd6;
+  border: 1px solid var(--border);
   padding: 20px;
   box-shadow: 0 6px 16px rgba(0, 0, 0, 0.02);
   display: flex;
@@ -473,7 +509,7 @@ header button:hover {
 }
 
 .stats-title {
-  color: #519755;
+  color: var(--color-primario);
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -489,23 +525,31 @@ header button:hover {
 
 .stat-label {
   font-size: 0.88rem;
-  color: #616e62;
+  color: var(--color-texto-suave);
 }
 
 .stat-number {
   font-size: 1.1rem;
   font-weight: 700;
-  color: #1a2e1c;
+  color: var(--color-texto-principal);
 }
 
-.stat-number.col-pendiente { color: #519755; }
-.stat-number.col-proceso   { color: #c8973a; }
-.stat-number.col-hecho     { color: #9b7fb6; }
-.stat-number.urgente-num   { color: #DBAAA7; }
+.stat-number.col-pendiente {
+  color: var(--col-pendiente);
+}
+.stat-number.col-proceso {
+  color: var(--col-proceso);
+}
+.stat-number.col-hecho {
+  color: var(--col-hecho);
+}
+.stat-number.urgente-num {
+  color: var(--col-urgente);
+}
 
 .stat-divider {
   height: 1px;
-  background: #d4ebd6;
+  background: var(--border);
 }
 
 .progress-wrap {
@@ -517,27 +561,27 @@ header button:hover {
 .progress-bar {
   width: 100%;
   height: 8px;
-  background: #eff5ef;
+  background: var(--color-fondo);
   border-radius: 99px;
   overflow: hidden;
 }
 
 .progress-fill {
   height: 100%;
-  background: #9b7fb6;
+  background: var(--col-hecho);
   border-radius: 99px;
   transition: width 0.4s ease;
 }
 
 .progress-pct {
   font-size: 0.8rem;
-  color: #9b7fb6;
+  color: var(--col-hecho);
   font-weight: 700;
   text-align: right;
 }
 
 .stats-title {
-  color: #519755;
+  color: var(--color-primario);
   font-size: 0.85rem;
   font-weight: 700;
   text-transform: uppercase;
@@ -560,24 +604,32 @@ header button:hover {
 
 .stat-label {
   font-size: 0.88rem;
-  color: #616e62;
+  color: var(--color-texto-suave);
   flex: 1;
 }
 
 .stat-number {
   font-size: 1rem;
   font-weight: 700;
-  color: #1a2e1c;
+  color: var(--color-texto-principal);
 }
 
-.stat-number.col-pendiente { color: #519755; }
-.stat-number.col-proceso   { color: #c8973a; }
-.stat-number.col-hecho     { color: #9b7fb6; }
-.stat-number.urgente-num   { color: #DBAAA7; }
+.stat-number.col-pendiente {
+  color: var(--col-pendiente);
+}
+.stat-number.col-proceso {
+  color: var(--col-proceso);
+}
+.stat-number.col-hecho {
+  color: var(--col-hecho);
+}
+.stat-number.urgente-num {
+  color: var(--col-urgente);
+}
 
 .stat-divider {
   height: 1px;
-  background: #d4ebd6;
+  background: var(--border);
 }
 
 /* Botones de acción en tarjetas */
@@ -600,44 +652,44 @@ header button:hover {
 }
 
 .btn-edit {
-  background: #f0f7f0;
-  color: #519755;
-  border-color: #d4ebd6;
+  background: var(--color-fondo);
+  color: var(--color-primario);
+  border-color: var(--border);
 }
 
 .btn-edit:hover {
-  background: #519755;
-  color: #ffffff;
+  background: var(--color-primario);
+  color: var(--color-superficie);
 }
 
 .btn-move {
-  background: #eef3fb;
-  color: #4a7ab5;
-  border-color: #ccdaf0;
+  background: var(--color-fondo);
+  color: var(--color-primario);
+  border-color: var(--border);
 }
 
 .btn-move:hover {
-  background: #4a7ab5;
-  color: #ffffff;
+  background: var(--color-primario);
+  color: var(--color-superficie);
 }
 
 .btn-delete {
-  background: #fdf0ef;
-  color: #c57672;
-  border-color: #f0d4d2;
+  background: var(--color-fondo);
+  color: var(--color-primario);
+  border-color: var(--border);
 }
 
 .btn-delete:hover {
-  background: #DBAAA7;
-  color: #ffffff;
+  background: var(--color-primario);
+  color: var(--color-superficie);
 }
 
 /* Botones Guardar / Cancelar */
 .btn-save {
   flex: 1;
   padding: 8px 12px;
-  background: #519755;
-  color: #ffffff;
+  background: var(--color-primario);
+  color: var(--color-superficie);
   border: none;
   border-radius: 6px;
   font-size: 0.88rem;
@@ -651,15 +703,15 @@ header button:hover {
 }
 
 .btn-save:hover {
-  background: #497550;
+  background: var(--col-todo);
 }
 
 .btn-cancel-edit {
   flex: 1;
   padding: 8px 12px;
-  background: #fdf0ef;
-  color: #c57672;
-  border: 1px solid #f0d4d2;
+  background: var(--color-fondo);
+  color: var(--color-primario);
+  border: 1px solid var(--border);
   border-radius: 6px;
   font-size: 0.88rem;
   font-weight: 600;
@@ -672,20 +724,20 @@ header button:hover {
 }
 
 .btn-cancel-edit:hover {
-  background: #DBAAA7;
-  color: #ffffff;
+  background: var(--color-primario);
+  color: var(--color-superficie);
 }
 
 /* Select y textarea del modo edición */
 .edit-select {
   width: 100%;
   padding: 8px 10px;
-  border: 2px solid #e3dede;
+  border: 2px solid var(--border);
   border-radius: 6px;
   font-size: 0.9rem;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #1a2e1c;
-  background: #f9fbf9;
+  color: var(--color-texto-principal);
+  background: var(--color-fondo);
   cursor: pointer;
   transition: border-color 0.2s;
   appearance: none;
@@ -696,13 +748,13 @@ header button:hover {
 
 .edit-select:focus {
   outline: none;
-  border-color: #BE91BE;
+  border-color: var(--color-acento);
   box-shadow: 0 0 0 3px rgba(190, 145, 190, 0.15);
 }
 
 .edit-desc:focus {
   outline: none;
-  border-color: #BE91BE;
+  border-color: var(--color-acento);
   box-shadow: 0 0 0 3px rgba(190, 145, 190, 0.15);
 }
 
@@ -711,15 +763,15 @@ header button:hover {
   flex-direction: column;
   gap: 6px;
   font-size: 0.88rem;
-  color: #616e62;
+  color: var(--color-texto-suave);
   font-weight: 600;
 }
 
 /* Tarjeta mientras se arrastra */
 .cdk-drag-preview {
-  background: #ffffff;
+  background: var(--bg-card);
   border-radius: 10px;
-  border: 1px solid #BE91BE;
+  border: 1px solid var(--color-acento);
   box-shadow: 0 8px 24px rgba(190, 145, 190, 0.3);
   padding: 16px;
   opacity: 0.95;
@@ -727,8 +779,8 @@ header button:hover {
 
 /* Hueco que deja la tarjeta al salir */
 .cdk-drag-placeholder {
-  background: #f5f0f9;
-  border: 2px dashed #BE91BE;
+  background: var(--color-fondo);
+  border: 2px dashed var(--color-acento);
   border-radius: 10px;
   height: 60px;
   margin-bottom: 14px;

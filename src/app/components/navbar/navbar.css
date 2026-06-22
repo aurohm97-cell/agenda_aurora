@@ -1,0 +1,76 @@
+.topbar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 56px;
+  background: #ffffff;
+  border-bottom: 1px solid #d4ebd6;
+  box-shadow: 0 2px 8px rgba(81, 151, 85, 0.06);
+  background: var(--bg-card);
+  border-bottom: 1px solid var(--border);
+}
+
+.topbar-logo {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--color-primario);
+  letter-spacing: -0.3px;
+}
+
+.topbar-usuario {
+  font-size: 0.9rem;
+  color: #616e62;
+}
+
+.role-badge {
+  background-color: #A8DCAB;
+  color: #1e3d21;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: bold;
+  margin-left: 8px;
+  text-transform: uppercase;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.topbar-logo i {
+  color: var(--text-secondary);
+  margin-right: 6px;
+  font-size: 1.1rem;
+}
+
+.topbar-usuario i {
+  color: #616e62;
+  margin-right: 4px;
+}
+
+.topbar-right {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.theme-toggle {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid #d4ebd6;
+  background: transparent;
+  color: #519755;
+  font-size: 1rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.theme-toggle:hover {
+  background: #eff5ef;
+}

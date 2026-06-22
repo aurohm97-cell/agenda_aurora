@@ -1,0 +1,64 @@
+<aside class="stats-panel">
+  <h4 class="stats-title">Resumen</h4>
+
+  <svg viewBox="0 0 100 100" width="100%" style="margin: 8px 0">
+    <circle cx="50" cy="50" r="35" fill="none" stroke="var(--col-pendiente)" stroke-width="14" />
+
+    <circle
+      cx="50" cy="50" r="35"
+      fill="none"
+      stroke="var(--col-hecho)"
+      stroke-width="14"
+      [attr.stroke-dasharray]="dashArrayHechas"
+      stroke-dashoffset="54.97"
+      stroke-linecap="round"
+      transform="rotate(-90 50 50)"
+    />
+
+    <circle
+      cx="50" cy="50" r="35"
+      fill="none"
+      stroke="var(--col-proceso)"
+      stroke-width="14"
+      [attr.stroke-dasharray]="dashArrayProceso"
+      [attr.stroke-dashoffset]="dashOffsetProceso"
+      stroke-linecap="round"
+      transform="rotate(-90 50 50)"
+    />
+
+    <text
+      x="50" y="50"
+      text-anchor="middle"
+      dominant-baseline="middle"
+      font-size="18"
+      font-weight="700"
+      fill="var(--color-texto-principal)"
+    >{{ totalTareas }}</text>
+    <text x="50" y="63" text-anchor="middle" font-size="7" fill="var(--color-texto-suave)">tareas</text>
+  </svg>
+
+  <div class="stat-block">
+    <span class="stat-dot" style="background: var(--col-pendiente)"></span>
+    <span class="stat-label">Por hacer</span>
+    <span class="stat-number col-pendiente">{{ pendientes }}</span>
+  </div>
+
+  <div class="stat-block">
+    <span class="stat-dot" style="background: var(--col-proceso)"></span>
+    <span class="stat-label">En proceso</span>
+    <span class="stat-number col-proceso">{{ enProceso }}</span>
+  </div>
+
+  <div class="stat-block">
+    <span class="stat-dot" style="background: var(--col-hecho)"></span>
+    <span class="stat-label">Completadas</span>
+    <span class="stat-number col-hecho">{{ hechas }}</span>
+  </div>
+
+  <div class="stat-divider"></div>
+
+  <div class="stat-block">
+    <span class="stat-label">Urgentes</span>
+    <span class="stat-number urgente-num">{{ urgentes }}</span>
+  </div>
+</aside>
