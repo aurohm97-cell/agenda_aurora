@@ -144,3 +144,27 @@ h2 {
 .btn-action:hover {
   background-color: var(--color-fondo);
 }
+
+/* LOGIN Y REGISTER — DARK MODE */
+body.dark .login-container,
+body.dark .register-container {
+  background: linear-gradient(45deg, #1a1d1a, #2a3a2a, #3d2a3d, #2a2030, #1a1d1a) !important;
+  background-size: 400% 400% !important;
+  border-color: #333833 !important;
+}
+
+body.dark .login-card {
+  background: var(--bg-card) !important;
+  border-color: var(--border) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+}
+
+body.dark .login-card input {
+  background-color: var(--color-fondo) !important;
+  border-color: var(--border) !important;
+  color: var(--color-texto-principal) !important;
+}
+
+body.dark .login-card input::placeholder {
+  color: var(--color-texto-suave) !important;
+}

@@ -186,3 +186,66 @@ a:hover {
   font-weight: bold;
   cursor: pointer;
 }
+
+/* ==========================================
+   🌙 DARK MODE
+   ========================================== */
+body.dark .login-container {
+  background: linear-gradient(45deg, #1a1d1a, #2a3a2a, #3d2a3d, #2a2030, #1a1d1a);
+  background-size: 400% 400%;
+  animation: gradienteVivo 16s ease infinite;
+  border-color: #333833;
+}
+
+body.dark .login-card {
+  background: var(--bg-card);
+  border-color: var(--border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .login-card h2 {
+  color: var(--color-primario);
+}
+
+body.dark .form-group label {
+  color: var(--color-primario);
+}
+
+body.dark input {
+  background-color: var(--color-fondo);
+  border-color: var(--border);
+  color: var(--color-texto-principal);
+}
+
+body.dark input::placeholder {
+  color: var(--color-texto-suave);
+}
+
+body.dark input:focus {
+  background-color: var(--bg-card);
+  border-color: var(--color-acento);
+}
+
+body.dark p {
+  color: var(--color-texto-suave);
+}
+
+body.dark .modal-box {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+body.dark .modal-box h3 {
+  color: var(--color-primario);
+}
+
+body.dark .modal-box p {
+  color: var(--color-texto-suave);
+}
+
+body.dark .login-container {
+  background: linear-gradient(45deg, #1a1d1a, #2a3a2a, #3d2a3d, #2a2030, #1a1d1a);
+  background-size: 400% 400%;
+  animation: gradienteVivo 16s ease infinite;
+  border-color: #333833;
+}

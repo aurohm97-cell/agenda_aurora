@@ -27,10 +27,10 @@ label {
 
 .login-card {
 
-  background: #ffffff;
+  background: var(--bg-card);
   padding: 45px;
   border-radius: 16px;
-  border: 1px solid #d4ebd6;
+  border: 1px solid var(--border);
   box-shadow: 0 10px 30px rgba(81, 151, 85, 0.08);
   width: 100%;
   max-width: 480px; /* 👈 Ancho de 480px igual que el login */
@@ -38,14 +38,14 @@ label {
 }
 
 .login-card h2 {
-  color: #519755; /* Verde Bosque */
-  margin-bottom: px;
+  color: var(--color-primario);
+  margin-bottom: 30px;
   font-size: 2rem;
   font-weight: 700;
 }
 
 .subtitle {
-  color: #616e62;
+  color: var(--color-texto-suave);
   margin-bottom: 30px;
   font-size: 0.9rem;
 }
@@ -244,3 +244,73 @@ a:hover {
   }
 } 
 
+/* ==========================================
+   🌙 DARK MODE
+   ========================================== */
+body.dark .register-container {
+  background: linear-gradient(45deg, #1a1d1a, #2a3a2a, #3d2a3d, #2a2030, #1a1d1a);
+  background-size: 400% 400%;
+  animation: gradienteVivoCarta 16s ease infinite;
+  border-color: #333833;
+}
+
+body.dark .login-card {
+  background: var(--bg-card);
+  border-color: var(--border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+}
+
+body.dark .login-card h2 {
+  color: var(--color-primario);
+}
+
+body.dark .subtitle {
+  color: var(--color-texto-suave);
+}
+
+body.dark .form-group label {
+  color: var(--color-primario);
+}
+
+body.dark input {
+  background-color: var(--color-fondo);
+  border-color: var(--border);
+  color: var(--color-texto-principal);
+}
+
+body.dark input::placeholder {
+  color: var(--color-texto-suave);
+}
+
+body.dark input:focus {
+  background-color: var(--bg-card);
+  border-color: var(--color-acento);
+}
+
+body.dark p {
+  color: var(--color-texto-suave);
+}
+
+body.dark .footer-text {
+  color: var(--color-texto-suave);
+}
+
+body.dark .modal-box {
+  background: var(--bg-card);
+  border-color: var(--border);
+}
+
+body.dark .modal-box h3 {
+  color: var(--color-primario);
+}
+
+body.dark .modal-box p {
+  color: var(--color-texto-suave);
+}
+
+body.dark .register-container {
+  background: linear-gradient(135deg, #1a1d1a, #2a3a2a, #3d2a3d, #2a2030, #1a1d1a);
+  background-size: 400% 400%;
+  animation: gradienteVivoCarta 16s ease infinite;
+  border-color: #333833;
+}
