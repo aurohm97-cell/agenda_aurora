@@ -5,10 +5,11 @@ import { AuthService } from '../../services/auth';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
-import { onAuthStateChanged } from '@angular/fire/auth';
 import { NavbarComponent } from '../navbar/navbar';
 import { SidebarComponent } from '../sidebar/sidebar';
 import { StatsPanelComponent } from '../stats-panel/stats-panel';
+import { Auth, authState } from '@angular/fire/auth';
+import { inject } from '@angular/core';
 
 @Component({
   selector: 'app-dashboard',
@@ -32,11 +33,13 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   usuarioNombre = '';
   usuarioRol = ''; // Opcional, por si quieres mostrar su rol
 
+  private auth = inject(Auth);
   private mouseX = 50;
   private mouseY = 50;
   private targetX = 50;
   private targetY = 50;
   private animFrameId = 0;
+
 
   get tareasPendientes() {
     return this.misTareas.filter((t) => t.estado === 'pendiente');
@@ -67,10 +70,10 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   ) {}
 
   async ngOnInit() {
-    const user = await new Promise<any>((resolve) => {
-      const unsubscribe = onAuthStateChanged(this.authService.authInstance, (user) => {
-        unsubscribe();
-        resolve(user as any);
+     const user = await new Promise<any>((resolve) => {
+     const sub = authState(this.auth).subscribe((user) => {
+      sub.unsubscribe();
+      resolve(user);
       });
     });
 
@@ -101,8 +104,8 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
         container.style.backgroundImage = `
           radial-gradient(circle at ${this.mouseX}% ${this.mouseY}%,
             rgba(155, 127, 182, 0.18) 0%,
-            rgba(37, 40, 37, 0.75) 18%,
-            rgba(26, 29, 26, 0.98) 42%,
+            rgba(37, 40, 37, 0.75) 9%,
+            rgba(26, 29, 26, 0.98) 18%,
             rgba(26, 29, 26, 1) 100%)
         `;
       } else {
@@ -156,11 +159,28 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async onDrop(event: CdkDragDrop<any[]>, nuevoEstado: string) {
-    if (event.previousContainer !== event.container) {
-      const tarea = event.previousContainer.data[event.previousIndex];
-      this.misTareas = await this.taskService.actualizarEstado(tarea.id, nuevoEstado);
-    }
+    if (event.previousContainer === event.container) {
+      // Reordenación dentro de la misma columna
+    const columna = [...event.container.data];
+    const [tarea] = columna.splice(event.previousIndex, 1);
+    columna.splice(event.currentIndex, 0, tarea);
+
+    // Actualizamos el orden visual inmediatamente
+    const otrasTablas = this.misTareas.filter(t => t.estado !== nuevoEstado);
+    this.misTareas = [...otrasTablas, ...columna];
+
+    // Persistimos en Firebase
+    await this.taskService.reordenarTareas(columna);
+  } else {
+    // Movimiento entre columnas
+    const tarea = event.previousContainer.data[event.previousIndex];
+    this.misTareas = await this.taskService.actualizarEstado(tarea.id, nuevoEstado);
+
+    // Reordenamos la columna destino
+    const columnaDestino = this.misTareas.filter(t => t.estado === nuevoEstado);
+    await this.taskService.reordenarTareas(columnaDestino);
   }
+}
 
   editar(tarea: any) {
     this.tareaEnEdicion = tarea.id;

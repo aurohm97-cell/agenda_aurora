@@ -168,3 +168,11 @@ body.dark .login-card input {
 body.dark .login-card input::placeholder {
   color: var(--color-texto-suave) !important;
 }
+
+body.dark .login-card input:-webkit-autofill,
+body.dark .login-card input:-webkit-autofill:hover,
+body.dark .login-card input:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px var(--color-fondo) inset !important;
+  -webkit-text-fill-color: var(--color-texto-principal) !important;
+  caret-color: var(--color-texto-principal);
+}

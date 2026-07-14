@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { Firestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where } from '@angular/fire/firestore';
+import { Firestore, collection, addDoc, getDocs, doc, updateDoc, deleteDoc, query, where, writeBatch, orderBy } from '@angular/fire/firestore';
 import { Auth } from '@angular/fire/auth';
 
 @Injectable({
@@ -20,7 +20,7 @@ export class TaskService {
     if (!uid) return [];
 
     const tareasRef = collection(this.firestore, 'tareas');
-    const q = query(tareasRef, where('uid', '==', uid));
+    const q = query(tareasRef, where('uid', '==', uid), orderBy('orden', 'asc'));
     const snapshot = await getDocs(q);
 
     return snapshot.docs.map(d => ({
@@ -40,7 +40,8 @@ export class TaskService {
       titulo,
       descripcion,
       prioridad,
-      estado: 'pendiente'
+      estado: 'pendiente',
+      orden: Date.now()  // Usamos timestamp para ordenar por fecha de creación
     });
 
     return this.getTareas();
@@ -52,6 +53,21 @@ export class TaskService {
     await updateDoc(tareaRef, { estado: nuevoEstado });
     return this.getTareas();
   }
+
+  async reordenarTareas(tareas: any[]): Promise<void> {
+  const uid = this.getUid();
+  if (!uid) return;
+
+  const batch = writeBatch(this.firestore);
+
+  tareas.forEach((tarea, index) => {
+    if (tarea.uid !== uid) return;
+    const tareaRef = doc(this.firestore, 'tareas', tarea.id);
+    batch.update(tareaRef, { orden: index * 1000 });
+  });
+
+  await batch.commit();
+}
 
   // Editar título, descripción y prioridad
   async editarTarea(id: string, titulo: string, descripcion: string, prioridad: string): Promise<any[]> {
