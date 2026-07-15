@@ -196,3 +196,40 @@
 .btn-modal-danger:hover {
   opacity: 0.9;
 }
+
+.field-wrap {
+  margin-bottom: 16px;
+  text-align: left;
+}
+
+.field-label {
+  display: block;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-texto-suave);
+  margin-bottom: 6px;
+}
+
+.field-input {
+  width: 100%;
+  padding: 10px 12px;
+  background: var(--color-fondo);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  color: var(--color-texto-principal);
+  transition: border-color 0.2s;
+}
+
+.field-input:focus {
+  outline: none;
+  border-color: #DBAAA7;
+  box-shadow: 0 0 0 3px rgba(219, 170, 167, 0.15);
+}
+
+.field-error {
+  display: block;
+  font-size: 0.82rem;
+  color: #c57672;
+  margin-top: 4px;
+}

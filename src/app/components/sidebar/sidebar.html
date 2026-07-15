@@ -49,6 +49,20 @@
     </div>
     <h3>Eliminar cuenta</h3>
     <p>Esta acción eliminará permanentemente tu cuenta y todas tus tareas. <strong>No se puede deshacer.</strong></p>
+   <div class="field-wrap">
+      <label class="field-label">Confirma tu contraseña</label>
+      <input
+        type="password"
+        class="field-input"
+        [(ngModel)]="passwordEliminar"
+        placeholder="Tu contraseña actual"
+        (keyup.enter)="confirmarEliminarCuenta()"
+      />
+      <span class="field-error" *ngIf="errorPasswordEliminar">
+        {{ errorPasswordEliminar }}
+      </span>
+    </div>
+   
     <div class="modal-actions">
       <button class="btn-modal-cancel" (click)="cerrarEliminarCuenta()">Cancelar</button>
       <button class="btn-modal-danger" (click)="confirmarEliminarCuenta()">Sí, eliminar</button>
