@@ -1,6 +1,6 @@
 import { Injectable, inject } from '@angular/core';
-import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, user } from '@angular/fire/auth';
-import { Firestore, doc, setDoc, getDoc } from '@angular/fire/firestore';
+import { Auth, createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, user, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from '@angular/fire/auth';
+import { Firestore, doc, setDoc, getDoc, collection, getDocs, deleteDoc, query, where, writeBatch } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
@@ -74,5 +74,31 @@ if (error.code === 'auth/email-already-in-use') return 'email-en-uso';
   }
 get authInstance() {
     return this.auth;
+  }
+
+  async eliminarCuenta(password: string): Promise<void> {
+  const usuarioActual = this.auth.currentUser;
+  if (!usuarioActual || !usuarioActual.email) return;
+
+  const uid = usuarioActual.uid;
+
+  // 0. Reautenticar — Firebase lo exige para operaciones sensibles
+  const credencial = EmailAuthProvider.credential(usuarioActual.email, password);
+  await reauthenticateWithCredential(usuarioActual, credencial);
+
+  // 1. Borrar todas las tareas del usuario en lote
+  const tareasRef = collection(this.firestore, 'tareas');
+  const q = query(tareasRef, where('uid', '==', uid));
+  const snapshot = await getDocs(q);
+
+  const batch = writeBatch(this.firestore);
+  snapshot.docs.forEach(d => batch.delete(d.ref));
+  await batch.commit();
+
+  // 2. Borrar documento del usuario en Firestore
+  await deleteDoc(doc(this.firestore, 'usuarios', uid));
+
+  // 3. Borrar cuenta de Firebase Auth — siempre el último paso
+  await deleteUser(usuarioActual);
   }
 }

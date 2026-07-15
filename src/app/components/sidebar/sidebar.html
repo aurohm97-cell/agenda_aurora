@@ -1,16 +1,57 @@
 <aside class="sidebar">
   <nav class="sidebar-nav">
+    <!-- Tablero -->
     <a class="sidebar-item active" title="Tablero">
       <i class="fas fa-table-columns"></i>
     </a>
-    <a class="sidebar-item" title="Próximamente">
-      <i class="fas fa-calendar"></i>
+
+    <!-- Perfil — próximamente -->
+    <a class="sidebar-item" title="Perfil" (click)="abrirPerfil()">
+      <i class="fas fa-user"></i>
     </a>
-    <a class="sidebar-item" title="Papelera">
+
+    <!-- Papelera -->
+    <a class="sidebar-item" title="Papelera" (click)="papeleraClick.emit()">
       <i class="fas fa-trash"></i>
     </a>
   </nav>
-  <button class="sidebar-logout" (click)="logoutClick.emit()" title="Cerrar sesión">
-    <i class="fas fa-right-from-bracket"></i>
-  </button>
+
+  <div class="sidebar-bottom">
+    <!-- Cerrar sesión -->
+    <button class="sidebar-logout" (click)="logoutClick.emit()" title="Cerrar sesión">
+      <i class="fas fa-right-from-bracket"></i>
+    </button>
+
+    <!-- Eliminar cuenta -->
+    <button class="sidebar-delete" (click)="abrirEliminarCuenta()" title="Eliminar cuenta">
+      <i class="fas fa-user-slash"></i>
+    </button>
+  </div>
 </aside>
+
+<!-- Modal perfil próximamente -->
+<div class="modal-overlay" *ngIf="mostrandoModalPerfil" (click)="cerrarPerfil()">
+  <div class="modal-card" @modalEntrada (click)="$event.stopPropagation()">
+    <div class="modal-icon">
+      <i class="fas fa-user"></i>
+    </div>
+    <h3>Perfil de usuario</h3>
+    <p>Pronto podrás editar tu nombre, cambiar tu contraseña y personalizar tu experiencia en Agenda Aurora.</p>
+    <button class="btn-modal-close" (click)="cerrarPerfil()">Entendido</button>
+  </div>
+</div>
+
+<!-- Modal eliminar cuenta -->
+<div class="modal-overlay" *ngIf="mostrandoModalEliminar" (click)="cerrarEliminarCuenta()">
+  <div class="modal-card modal-danger" @modalEntrada (click)="$event.stopPropagation()">
+    <div class="modal-icon danger">
+      <i class="fas fa-user-slash"></i>
+    </div>
+    <h3>Eliminar cuenta</h3>
+    <p>Esta acción eliminará permanentemente tu cuenta y todas tus tareas. <strong>No se puede deshacer.</strong></p>
+    <div class="modal-actions">
+      <button class="btn-modal-cancel" (click)="cerrarEliminarCuenta()">Cancelar</button>
+      <button class="btn-modal-danger" (click)="confirmarEliminarCuenta()">Sí, eliminar</button>
+    </div>
+  </div>
+</div>

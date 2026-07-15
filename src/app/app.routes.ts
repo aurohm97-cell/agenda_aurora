@@ -8,6 +8,11 @@ import { usuarioResolver } from './resolvers/usuario.resolver';
 export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { 
+    path: 'dashboard', 
+    component: DashboardComponent,
+    canActivate: [authGuard],
+    resolve: { usuario: usuarioResolver }
+  },
   { path: '', redirectTo: 'login', pathMatch: 'full' }
 ];

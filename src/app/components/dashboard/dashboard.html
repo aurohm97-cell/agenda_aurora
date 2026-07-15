@@ -8,7 +8,11 @@
   <!-- CUERPO: sidebar + tablero -->
   <div class="app-body">
     <!-- SIDEBAR -->
-     <app-sidebar (logoutClick)="logout()"></app-sidebar>
+     <app-sidebar 
+      (logoutClick)="logout()"
+      (papeleraClick)="abrirPapelera()"
+      (eliminarCuentaClick)="eliminarCuenta()">
+    </app-sidebar>
 
     <!-- TABLERO KANBAN -->
     <main class="board-area">

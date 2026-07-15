@@ -10,6 +10,8 @@ import { SidebarComponent } from '../sidebar/sidebar';
 import { StatsPanelComponent } from '../stats-panel/stats-panel';
 import { Auth, authState } from '@angular/fire/auth';
 import { inject } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ThemeService } from '../../services/theme';
 
 @Component({
   selector: 'app-dashboard',
@@ -67,27 +69,18 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
     private taskService: TaskService,
     private authService: AuthService,
     private router: Router,
-  ) {}
+    public theme: ThemeService,
+    private route: ActivatedRoute,
+) {}
 
   async ngOnInit() {
-     const user = await new Promise<any>((resolve) => {
-     const sub = authState(this.auth).subscribe((user) => {
-      sub.unsubscribe();
-      resolve(user);
-      });
-    });
-
-    if (user) {
-      const datos = await this.authService.getDatosUsuario();
-      if (datos) {
-        this.usuarioNombre = datos.nombre;
-        this.usuarioRol = datos.rol;
-      }
-      this.misTareas = await this.taskService.getTareas();
-    } else {
-      this.router.navigate(['/login']);
-    }
+    const datos = this.route.snapshot.data['usuario'];
+  if (datos) {
+    this.usuarioNombre = datos.nombre;
+    this.usuarioRol = datos.rol;
   }
+  this.misTareas = await this.taskService.getTareas();
+}
 
   ngAfterViewInit() {
     this.animarGradiente();
@@ -238,4 +231,22 @@ export class DashboardComponent implements OnInit, AfterViewInit, OnDestroy {
   cancelarLogout() {
     this.mostrandoModalLogout = false; // Cerramos sin hacer nada
   }
+  
+  abrirPapelera() {
+    // pendiente de implementar
+  }
+
+  async eliminarCuenta(password: string) {
+  try {
+    await this.authService.eliminarCuenta(password);
+    this.router.navigate(['/login']);
+  } catch (error: any) {
+    if (error.code === 'auth/wrong-password' || error.code === 'auth/invalid-credential') {
+      console.error('Contraseña incorrecta');
+    } else {
+      console.error('Error al eliminar cuenta:', error);
+    }
+  }
+}
+
 }
