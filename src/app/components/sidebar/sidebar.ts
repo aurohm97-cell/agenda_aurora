@@ -24,7 +24,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 export class SidebarComponent {
   @Output() logoutClick = new EventEmitter<void>();
    @Output() papeleraClick = new EventEmitter<void>();
-  @Output() eliminarCuentaClick = new EventEmitter<void>();
+  @Output() eliminarCuentaClick = new EventEmitter<string>();
 
   mostrandoModalPerfil = false;
   mostrandoModalEliminar = false;
